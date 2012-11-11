@@ -5,42 +5,59 @@ public class Sftpclient {
 
 	public static void main(String[] args){
 		
-		Socket s = null;
-		DataOutputStream bos = null;
-		FileInputStream fis = null;
-		BufferedInputStream bis = null;
-		byte[] byteArray = null;
+		DatagramSocket socket = null;
+		BufferedReader br = null;
+		FileReader fr = null;
+		byte[] buffer = null;
+		
 		try {
 			
-		s = new Socket("localhost", 7735);
-		bos = new DataOutputStream(s.getOutputStream());
+		socket = new DatagramSocket();
+		
 			
 		}catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		File sendingFile = new File("D:\\Projects\\SFTP\\Test.txt");
-		byteArray = new byte[(int)sendingFile.length()];
-		
+		buffer = new byte[1024];
+        DatagramPacket packet = null;
+        InetAddress address = null;;
 		try {
-			fis = new FileInputStream(sendingFile);
-		} catch (FileNotFoundException e) {
+			address = InetAddress.getByName("localhost");
+		} catch (UnknownHostException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
+		}
+        try {
+			fr = new FileReader(sendingFile);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 		
-		bis = new BufferedInputStream(fis);
-		try {
-			bis.read(byteArray, 0, byteArray.length);
-			bos.write(byteArray, 0, byteArray.length);
-			bos.flush();
-			bos.close();
-			s.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        br = new BufferedReader(fr);
 		
+		try {
+			
+			
+				buffer = br.readLine().getBytes();
+				packet = new DatagramPacket(buffer, buffer.length,address,7735);
+				socket.send(packet);
+				if(br.readLine()!=null)
+				{		
+					br.close();
+					socket.close();
+				}
+			}
+		 catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		 catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		}
 	}
