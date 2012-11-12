@@ -4,51 +4,85 @@ import java.net.*;
 public class Sftpclient {
 
 	public static void main(String[] args){
-		
-		DatagramSocket socket = null;
-		BufferedReader br = null;
-		FileReader fr = null;
+		String hostName = args[0];
+		int port = Integer.parseInt(args[1]);
+		String FileName = args[2];
+		File sendingFile = new File(FileName);
+		InputStream is = null;;
 		byte[] buffer = null;
-		
-		try {
-			
-		socket = new DatagramSocket();
-		
-			
-		}catch (IOException e) {
+		buffer = new byte[(int)sendingFile.length()];
+		DatagramSocket socket = null;
+        DatagramPacket packet = null;
+        InetAddress address = null;
+        try {
+			is = new FileInputStream(sendingFile);
+		} catch (FileNotFoundException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+	
+        
+        try {
+			socket = new DatagramSocket();
+			}catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		File sendingFile = new File("D:\\Projects\\SFTP\\Test.txt");
-		buffer = new byte[1024];
-        DatagramPacket packet = null;
-        InetAddress address = null;;
 		try {
-			address = InetAddress.getByName("localhost");
-		} catch (UnknownHostException e1) {
+			address = InetAddress.getByName(hostName);
+			} catch (UnknownHostException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-        try {
-			fr = new FileReader(sendingFile);
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-        br = new BufferedReader(fr);
-		
+    	//UDP Packets can hold a maximum of 536 bytes. 
+		//Split the packets into packets of 536 bytes and send. 
+		//So, right now MSS = 536 bytes. Here size = 536
 		try {
-			
-			
-				buffer = br.readLine().getBytes();
-				packet = new DatagramPacket(buffer, buffer.length,address,7735);
-				socket.send(packet);
-				if(br.readLine()!=null)
-				{		
-					br.close();
-					socket.close();
-				}
+				int i = 0;
+				int size;
+				while(i<buffer.length)
+				{
+					if(buffer.length - i > 536)
+					{
+						
+						size = 536;
+						packet = new DatagramPacket(buffer,i,size,address,port);
+						System.out.println(i);
+						System.out.println(size);
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						socket.send(packet);
+						i = i+536;
+					}
+					// Else block to handle the last packet. 
+					//size determines the size of the last packet.
+					//Here, size<=536
+					else
+					{	
+						size= buffer.length - i;
+						packet = new DatagramPacket(buffer,i,size,address,port);
+						System.out.println("Last Packet!");
+						System.out.println("Offset:"+i);
+						System.out.println("Size:"+size);
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						socket.send(packet);
+						i = i+536;
+					}
+					
+					
+				}	
+				System.out.println("Client done!");
+				is.close();
+				socket.close();
+				
 			}
 		 catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block

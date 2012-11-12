@@ -1,38 +1,52 @@
-import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
 
 public class Sftpserver {
-	public static void main(String[] args){
-		DatagramSocket socket = null;
-		byte[] buffer = new byte[1024];
-		DatagramPacket packet = null;
-        String s = null;
-
-		try {
-			socket = new DatagramSocket(7735);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	
+		public static void main(String[] args){
+			String FileName = args[1];
+	        int port = Integer.parseInt(args[0]);
+			DatagramSocket socket = null;
+			byte[] buffer = new byte[536];
+			DatagramPacket packet = null;
+			OutputStream os = null;
+			File newFile = new File(FileName);
+			
 			try {
-				FileWriter fw = new FileWriter("D:\\Projects\\SFTP\\Testoutput.txt");
-				BufferedWriter bw = new BufferedWriter(fw);
+				socket = new DatagramSocket(port);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			try {
+				
 				packet = new DatagramPacket(buffer, buffer.length);
-				socket.receive(packet);
-				s = new String(packet.getData(),0,packet.getLength());
-				System.out.println(s);
-				bw.write(s);
-				bw.flush();
-				bw.close();
-				socket.close();
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
+				while(true)
+				{
+					
+					socket.receive(packet);
+			          
+				try {
+					os = new FileOutputStream(newFile,true);
+					buffer = packet.getData();
+					int length = (int)newFile.length();
+					System.out.println("Offset:"+length);
+					System.out.println("Length"+packet.getLength());
+					os.write(packet.getData(),0,packet.getLength());
+				os.close();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				}}catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

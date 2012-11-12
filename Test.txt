@@ -1,1 +1,3719 @@
-Just printing some junk.
+	CSC 573 Section 002
+	Fall 2012
+	Homework #1
+
+
+
+
+
+Keywords: Classless Addressing, CIDR, Sub-netting, Super-netting
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian   Student ID 1: abalasu3
+Name 2: Hareesh Lakshminarayanan Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+	Instructions
+•	You can do this homework in groups of two (at most).
+•	The total number of points is 30.
+•	You must answer all questions for full credit.
+•	Use only this paper for your answers, in the space provided.
+•	The due date is as posted on the web page (please submit your answers through Wolfware).
+
+	Question 1: [9 pts]
+
+[1] [2 points] Given the following two address/mask combinations assigned to devices A and B. Determine if these devices are on the same subnet or different subnets. 
+Device A: 172.16.17.30/20
+Device B: 172.16.28.15/20
+
+Yes. The two devices are on the same subnet. This is determined from the mask which is same meaning both the devices are in the same network (172.16.16.0).
+
+[2] Given the Class C network of 204.15.5.0/24. An administrator needs to subnet his network and has the following requirements:
+	
+	Subnet A: must support 14 hosts
+	Subnet B: must support 28 hosts
+	Subnet C: must support 2 hosts
+	Subnet D: must support 7 hosts
+     Subnet E: must support 28 host
+
+A)	[3 points] Provide the address/mask of the 5 subnets when all 5 subnets have the same size.
+
+A)	204.15.5.32/27
+B)	204.15.5.64/27
+C)	204.15.5.96/27
+D)	204.15.5.128/27
+E)	204.15.5.160/27
+
+B)	[4 points] Provide the address/mask of the 5 subnets when all 5 subnets have the minima possible power of two size. For example, a subnet with 7 hosts should accommodate at most 23=8 hosts.
+
+		The following are the subnets
+A)	204.15.5.16/28
+B)	204.15.5.32/27
+C)	204.15.5.2/31
+D)	204.15.5.8/29
+E)	204.15.5.64/27
+
+
+
+Question 2:  [8 points] 
+A large number of consecutive IP addresses are available starting at 204.16.0.0. Suppose that four organizations A, B, C, and D, request 4000, 4000, 2000, and 8000 addresses, respectively and in that order. 
+
+A)	[5 points] For each of these, give the first IP address assigned, the last IP address assigned, and the mask in the w.x.y.z/s notation.
+
+ 
+
+Organization	Addresses needed	Subnet mask	First IP Address	Last IP Address
+A	4000	204.16.0.0/20	204.16.0.1	204.16.15.159
+B	4000	204.16.16.0/20	204.16.16.1	204.16.31.159
+C	2000	204.16.32.0/21	204.16.32.1	204.16.41.200
+D	8000	204.16.64.0/19	204.16.64.1	204.16.96.95
+
+
+
+
+
+
+
+B) [3 points] Later it is found that all of them need to be forwarded to the same router, anyway. Can any of them be aggregated? Explain.
+
+
+A: 204.16.00000000.00000000/20
+B: 204.16.00010000.00000000/20
+C: 204.16.00100000.00000000/21
+D: 204.16.01000000.00000000/19
+
+Yes. A and B can be aggregated into the 204.16.0.0/19 (range: 204.16.0.1 – 204.16.31.255) subnet (since the prefix matches until 204.16.000). If C has to be aggregated into the network with A and B, the network to be used is 204.16.0.0/18 in the range 204.16.0.1 – 204.16.63.255 (since the pattern matches until 204.16.00). They can all be aggregated into the same network 204.16.0.0/17 (range 204.16.0.1 – 204.16.127.255).
+
+
+Question 3: [7 points]
+
+An organization purchases a Class B address space and plans to use subnetting to assign addresses to its end nodes, which are spread across multiple physical networks. There are 30 networks, and the network with the largest number of hosts has 100 hosts. The administrator desires to use the same subnet mask in all routes of all internal routers if this is possible.
+
+
+A)	[4 points] What are the possible subnet masks it could use?
+
+
+Class B has 16 bits that can be used for the hosts. Since each network has only 100 hosts, 7 bits are needed for the hosts and the remaining 9 bits can be used for the network. 
+
+So, 30 subnets can be selected in the range 255.255.0.0 and 255.255.255.128.
+
+
+
+
+
+
+
+
+
+B)	[3 points] Suppose it is known that one of the networks will later grow to 150 hosts. Which of the masks identified in part (A) will continue to work and which will not?
+
+
+In this case only the subnets beginning at 255.255.0.0 till 255.255.255.0 can be used. The subnets from 255.255.255.1 to 255.255.255.128 cannot be used as they will be needed to support the hosts. The 30 subnets need to be selected in the range 255.255.0.0 till 255.255.255.0.
+
+
+
+
+
+
+
+
+
+Question 4: [6 points]
+
+
+A router has just received the following new IP addresses: 88.62.104.0/21, 88.62.112.0/21, 88.62.120.0/21 and 88.62.128.0/21. If all of them use the same outgoing interface, can they be aggregated? If so, to what? If not, why not?
+
+The first three subnets can be aggregated into 88.62.96.0/19 network. However in the last address, the third octet has a different pattern (the first bit is 1, while in all other networks, the first bit is 0) and cannot be aggregated together into the network.
+	CSC 573 Section 002
+	Fall 2012
+	Homework #1
+
+
+
+
+
+Keywords: Classless Addressing, CIDR, Sub-netting, Super-netting
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian   Student ID 1: abalasu3
+Name 2: Hareesh Lakshminarayanan Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+	Instructions
+•	You can do this homework in groups of two (at most).
+•	The total number of points is 30.
+•	You must answer all questions for full credit.
+•	Use only this paper for your answers, in the space provided.
+•	The due date is as posted on the web page (please submit your answers through Wolfware).
+
+	Question 1: [9 pts]
+
+[1] [2 points] Given the following two address/mask combinations assigned to devices A and B. Determine if these devices are on the same subnet or different subnets. 
+Device A: 172.16.17.30/20
+Device B: 172.16.28.15/20
+
+Yes. The two devices are on the same subnet. This is determined from the mask which is same meaning both the devices are in the same network (172.16.16.0).
+
+[2] Given the Class C network of 204.15.5.0/24. An administrator needs to subnet his network and has the following requirements:
+	
+	Subnet A: must support 14 hosts
+	Subnet B: must support 28 hosts
+	Subnet C: must support 2 hosts
+	Subnet D: must support 7 hosts
+     Subnet E: must support 28 host
+
+A)	[3 points] Provide the address/mask of the 5 subnets when all 5 subnets have the same size.
+
+A)	204.15.5.32/27
+B)	204.15.5.64/27
+C)	204.15.5.96/27
+D)	204.15.5.128/27
+E)	204.15.5.160/27
+
+B)	[4 points] Provide the address/mask of the 5 subnets when all 5 subnets have the minima possible power of two size. For example, a subnet with 7 hosts should accommodate at most 23=8 hosts.
+
+		The following are the subnets
+A)	204.15.5.16/28
+B)	204.15.5.32/27
+C)	204.15.5.2/31
+D)	204.15.5.8/29
+E)	204.15.5.64/27
+
+
+
+Question 2:  [8 points] 
+A large number of consecutive IP addresses are available starting at 204.16.0.0. Suppose that four organizations A, B, C, and D, request 4000, 4000, 2000, and 8000 addresses, respectively and in that order. 
+
+A)	[5 points] For each of these, give the first IP address assigned, the last IP address assigned, and the mask in the w.x.y.z/s notation.
+
+ 
+
+Organization	Addresses needed	Subnet mask	First IP Address	Last IP Address
+A	4000	204.16.0.0/20	204.16.0.1	204.16.15.159
+B	4000	204.16.16.0/20	204.16.16.1	204.16.31.159
+C	2000	204.16.32.0/21	204.16.32.1	204.16.41.200
+D	8000	204.16.64.0/19	204.16.64.1	204.16.96.95
+
+
+
+
+
+
+
+B) [3 points] Later it is found that all of them need to be forwarded to the same router, anyway. Can any of them be aggregated? Explain.
+
+
+A: 204.16.00000000.00000000/20
+B: 204.16.00010000.00000000/20
+C: 204.16.00100000.00000000/21
+D: 204.16.01000000.00000000/19
+
+Yes. A and B can be aggregated into the 204.16.0.0/19 (range: 204.16.0.1 – 204.16.31.255) subnet (since the prefix matches until 204.16.000). If C has to be aggregated into the network with A and B, the network to be used is 204.16.0.0/18 in the range 204.16.0.1 – 204.16.63.255 (since the pattern matches until 204.16.00). They can all be aggregated into the same network 204.16.0.0/17 (range 204.16.0.1 – 204.16.127.255).
+
+
+Question 3: [7 points]
+
+An organization purchases a Class B address space and plans to use subnetting to assign addresses to its end nodes, which are spread across multiple physical networks. There are 30 networks, and the network with the largest number of hosts has 100 hosts. The administrator desires to use the same subnet mask in all routes of all internal routers if this is possible.
+
+
+A)	[4 points] What are the possible subnet masks it could use?
+
+
+Class B has 16 bits that can be used for the hosts. Since each network has only 100 hosts, 7 bits are needed for the hosts and the remaining 9 bits can be used for the network. 
+
+So, 30 subnets can be selected in the range 255.255.0.0 and 255.255.255.128.
+
+
+
+
+
+
+
+
+
+B)	[3 points] Suppose it is known that one of the networks will later grow to 150 hosts. Which of the masks identified in part (A) will continue to work and which will not?
+
+
+In this case only the subnets beginning at 255.255.0.0 till 255.255.255.0 can be used. The subnets from 255.255.255.1 to 255.255.255.128 cannot be used as they will be needed to support the hosts. The 30 subnets need to be selected in the range 255.255.0.0 till 255.255.255.0.
+
+
+
+
+
+
+
+
+
+Question 4: [6 points]
+
+
+A router has just received the following new IP addresses: 88.62.104.0/21, 88.62.112.0/21, 88.62.120.0/21 and 88.62.128.0/21. If all of them use the same outgoing interface, can they be aggregated? If so, to what? If not, why not?
+
+The first three subnets can be aggregated into 88.62.96.0/19 network. However in the last address, the third octet has a different pattern (the first bit is 1, while in all other networks, the first bit is 0) and cannot be aggregated together into the network.
+	CSC 573 Section 002
+	Fall 2012
+	Homework #1
+
+
+
+
+
+Keywords: Classless Addressing, CIDR, Sub-netting, Super-netting
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian   Student ID 1: abalasu3
+Name 2: Hareesh Lakshminarayanan Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+	Instructions
+•	You can do this homework in groups of two (at most).
+•	The total number of points is 30.
+•	You must answer all questions for full credit.
+•	Use only this paper for your answers, in the space provided.
+•	The due date is as posted on the web page (please submit your answers through Wolfware).
+
+	Question 1: [9 pts]
+
+[1] [2 points] Given the following two address/mask combinations assigned to devices A and B. Determine if these devices are on the same subnet or different subnets. 
+Device A: 172.16.17.30/20
+Device B: 172.16.28.15/20
+
+Yes. The two devices are on the same subnet. This is determined from the mask which is same meaning both the devices are in the same network (172.16.16.0).
+
+[2] Given the Class C network of 204.15.5.0/24. An administrator needs to subnet his network and has the following requirements:
+	
+	Subnet A: must support 14 hosts
+	Subnet B: must support 28 hosts
+	Subnet C: must support 2 hosts
+	Subnet D: must support 7 hosts
+     Subnet E: must support 28 host
+
+A)	[3 points] Provide the address/mask of the 5 subnets when all 5 subnets have the same size.
+
+A)	204.15.5.32/27
+B)	204.15.5.64/27
+C)	204.15.5.96/27
+D)	204.15.5.128/27
+E)	204.15.5.160/27
+
+B)	[4 points] Provide the address/mask of the 5 subnets when all 5 subnets have the minima possible power of two size. For example, a subnet with 7 hosts should accommodate at most 23=8 hosts.
+
+		The following are the subnets
+A)	204.15.5.16/28
+B)	204.15.5.32/27
+C)	204.15.5.2/31
+D)	204.15.5.8/29
+E)	204.15.5.64/27
+
+
+
+Question 2:  [8 points] 
+A large number of consecutive IP addresses are available starting at 204.16.0.0. Suppose that four organizations A, B, C, and D, request 4000, 4000, 2000, and 8000 addresses, respectively and in that order. 
+
+A)	[5 points] For each of these, give the first IP address assigned, the last IP address assigned, and the mask in the w.x.y.z/s notation.
+
+ 
+
+Organization	Addresses needed	Subnet mask	First IP Address	Last IP Address
+A	4000	204.16.0.0/20	204.16.0.1	204.16.15.159
+B	4000	204.16.16.0/20	204.16.16.1	204.16.31.159
+C	2000	204.16.32.0/21	204.16.32.1	204.16.41.200
+D	8000	204.16.64.0/19	204.16.64.1	204.16.96.95
+
+
+
+
+
+
+
+B) [3 points] Later it is found that all of them need to be forwarded to the same router, anyway. Can any of them be aggregated? Explain.
+
+
+A: 204.16.00000000.00000000/20
+B: 204.16.00010000.00000000/20
+C: 204.16.00100000.00000000/21
+D: 204.16.01000000.00000000/19
+
+Yes. A and B can be aggregated into the 204.16.0.0/19 (range: 204.16.0.1 – 204.16.31.255) subnet (since the prefix matches until 204.16.000). If C has to be aggregated into the network with A and B, the network to be used is 204.16.0.0/18 in the range 204.16.0.1 – 204.16.63.255 (since the pattern matches until 204.16.00). They can all be aggregated into the same network 204.16.0.0/17 (range 204.16.0.1 – 204.16.127.255).
+
+
+Question 3: [7 points]
+
+An organization purchases a Class B address space and plans to use subnetting to assign addresses to its end nodes, which are spread across multiple physical networks. There are 30 networks, and the network with the largest number of hosts has 100 hosts. The administrator desires to use the same subnet mask in all routes of all internal routers if this is possible.
+
+
+A)	[4 points] What are the possible subnet masks it could use?
+
+
+Class B has 16 bits that can be used for the hosts. Since each network has only 100 hosts, 7 bits are needed for the hosts and the remaining 9 bits can be used for the network. 
+
+So, 30 subnets can be selected in the range 255.255.0.0 and 255.255.255.128.
+
+
+
+
+
+
+
+
+
+B)	[3 points] Suppose it is known that one of the networks will later grow to 150 hosts. Which of the masks identified in part (A) will continue to work and which will not?
+
+
+In this case only the subnets beginning at 255.255.0.0 till 255.255.255.0 can be used. The subnets from 255.255.255.1 to 255.255.255.128 cannot be used as they will be needed to support the hosts. The 30 subnets need to be selected in the range 255.255.0.0 till 255.255.255.0.
+
+
+
+
+
+
+
+
+
+Question 4: [6 points]
+
+
+A router has just received the following new IP addresses: 88.62.104.0/21, 88.62.112.0/21, 88.62.120.0/21 and 88.62.128.0/21. If all of them use the same outgoing interface, can they be aggregated? If so, to what? If not, why not?
+
+The first three subnets can be aggregated into 88.62.96.0/19 network. However in the last address, the third octet has a different pattern (the first bit is 1, while in all other networks, the first bit is 0) and cannot be aggregated together into the network.
+	CSC 573 Section 002
+	Fall 2012
+	Homework #1
+
+
+
+
+
+Keywords: Classless Addressing, CIDR, Sub-netting, Super-netting
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian   Student ID 1: abalasu3
+Name 2: Hareesh Lakshminarayanan Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+	Instructions
+•	You can do this homework in groups of two (at most).
+•	The total number of points is 30.
+•	You must answer all questions for full credit.
+•	Use only this paper for your answers, in the space provided.
+•	The due date is as posted on the web page (please submit your answers through Wolfware).
+
+	Question 1: [9 pts]
+
+[1] [2 points] Given the following two address/mask combinations assigned to devices A and B. Determine if these devices are on the same subnet or different subnets. 
+Device A: 172.16.17.30/20
+Device B: 172.16.28.15/20
+
+Yes. The two devices are on the same subnet. This is determined from the mask which is same meaning both the devices are in the same network (172.16.16.0).
+
+[2] Given the Class C network of 204.15.5.0/24. An administrator needs to subnet his network and has the following requirements:
+	
+	Subnet A: must support 14 hosts
+	Subnet B: must support 28 hosts
+	Subnet C: must support 2 hosts
+	Subnet D: must support 7 hosts
+     Subnet E: must support 28 host
+
+A)	[3 points] Provide the address/mask of the 5 subnets when all 5 subnets have the same size.
+
+A)	204.15.5.32/27
+B)	204.15.5.64/27
+C)	204.15.5.96/27
+D)	204.15.5.128/27
+E)	204.15.5.160/27
+
+B)	[4 points] Provide the address/mask of the 5 subnets when all 5 subnets have the minima possible power of two size. For example, a subnet with 7 hosts should accommodate at most 23=8 hosts.
+
+		The following are the subnets
+A)	204.15.5.16/28
+B)	204.15.5.32/27
+C)	204.15.5.2/31
+D)	204.15.5.8/29
+E)	204.15.5.64/27
+
+
+
+Question 2:  [8 points] 
+A large number of consecutive IP addresses are available starting at 204.16.0.0. Suppose that four organizations A, B, C, and D, request 4000, 4000, 2000, and 8000 addresses, respectively and in that order. 
+
+A)	[5 points] For each of these, give the first IP address assigned, the last IP address assigned, and the mask in the w.x.y.z/s notation.
+
+ 
+
+Organization	Addresses needed	Subnet mask	First IP Address	Last IP Address
+A	4000	204.16.0.0/20	204.16.0.1	204.16.15.159
+B	4000	204.16.16.0/20	204.16.16.1	204.16.31.159
+C	2000	204.16.32.0/21	204.16.32.1	204.16.41.200
+D	8000	204.16.64.0/19	204.16.64.1	204.16.96.95
+
+
+
+
+
+
+
+B) [3 points] Later it is found that all of them need to be forwarded to the same router, anyway. Can any of them be aggregated? Explain.
+
+
+A: 204.16.00000000.00000000/20
+B: 204.16.00010000.00000000/20
+C: 204.16.00100000.00000000/21
+D: 204.16.01000000.00000000/19
+
+Yes. A and B can be aggregated into the 204.16.0.0/19 (range: 204.16.0.1 – 204.16.31.255) subnet (since the prefix matches until 204.16.000). If C has to be aggregated into the network with A and B, the network to be used is 204.16.0.0/18 in the range 204.16.0.1 – 204.16.63.255 (since the pattern matches until 204.16.00). They can all be aggregated into the same network 204.16.0.0/17 (range 204.16.0.1 – 204.16.127.255).
+
+
+Question 3: [7 points]
+
+An organization purchases a Class B address space and plans to use subnetting to assign addresses to its end nodes, which are spread across multiple physical networks. There are 30 networks, and the network with the largest number of hosts has 100 hosts. The administrator desires to use the same subnet mask in all routes of all internal routers if this is possible.
+
+
+A)	[4 points] What are the possible subnet masks it could use?
+
+
+Class B has 16 bits that can be used for the hosts. Since each network has only 100 hosts, 7 bits are needed for the hosts and the remaining 9 bits can be used for the network. 
+
+So, 30 subnets can be selected in the range 255.255.0.0 and 255.255.255.128.
+
+
+
+
+
+
+
+
+
+B)	[3 points] Suppose it is known that one of the networks will later grow to 150 hosts. Which of the masks identified in part (A) will continue to work and which will not?
+
+
+In this case only the subnets beginning at 255.255.0.0 till 255.255.255.0 can be used. The subnets from 255.255.255.1 to 255.255.255.128 cannot be used as they will be needed to support the hosts. The 30 subnets need to be selected in the range 255.255.0.0 till 255.255.255.0.
+
+
+
+
+
+
+
+
+
+Question 4: [6 points]
+
+
+A router has just received the following new IP addresses: 88.62.104.0/21, 88.62.112.0/21, 88.62.120.0/21 and 88.62.128.0/21. If all of them use the same outgoing interface, can they be aggregated? If so, to what? If not, why not?
+
+The first three subnets can be aggregated into 88.62.96.0/19 network. However in the last address, the third octet has a different pattern (the first bit is 1, while in all other networks, the first bit is 0) and cannot be aggregated together into the network.
+	CSC 573 Section 002
+	Fall 2012
+	Homework #1
+
+
+
+
+
+Keywords: Classless Addressing, CIDR, Sub-netting, Super-netting
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian   Student ID 1: abalasu3
+Name 2: Hareesh Lakshminarayanan Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+	Instructions
+•	You can do this homework in groups of two (at most).
+•	The total number of points is 30.
+•	You must answer all questions for full credit.
+•	Use only this paper for your answers, in the space provided.
+•	The due date is as posted on the web page (please submit your answers through Wolfware).
+
+	Question 1: [9 pts]
+
+[1] [2 points] Given the following two address/mask combinations assigned to devices A and B. Determine if these devices are on the same subnet or different subnets. 
+Device A: 172.16.17.30/20
+Device B: 172.16.28.15/20
+
+Yes. The two devices are on the same subnet. This is determined from the mask which is same meaning both the devices are in the same network (172.16.16.0).
+
+[2] Given the Class C network of 204.15.5.0/24. An administrator needs to subnet his network and has the following requirements:
+	
+	Subnet A: must support 14 hosts
+	Subnet B: must support 28 hosts
+	Subnet C: must support 2 hosts
+	Subnet D: must support 7 hosts
+     Subnet E: must support 28 host
+
+A)	[3 points] Provide the address/mask of the 5 subnets when all 5 subnets have the same size.
+
+A)	204.15.5.32/27
+B)	204.15.5.64/27
+C)	204.15.5.96/27
+D)	204.15.5.128/27
+E)	204.15.5.160/27
+
+B)	[4 points] Provide the address/mask of the 5 subnets when all 5 subnets have the minima possible power of two size. For example, a subnet with 7 hosts should accommodate at most 23=8 hosts.
+
+		The following are the subnets
+A)	204.15.5.16/28
+B)	204.15.5.32/27
+C)	204.15.5.2/31
+D)	204.15.5.8/29
+E)	204.15.5.64/27
+
+
+
+Question 2:  [8 points] 
+A large number of consecutive IP addresses are available starting at 204.16.0.0. Suppose that four organizations A, B, C, and D, request 4000, 4000, 2000, and 8000 addresses, respectively and in that order. 
+
+A)	[5 points] For each of these, give the first IP address assigned, the last IP address assigned, and the mask in the w.x.y.z/s notation.
+
+ 
+
+Organization	Addresses needed	Subnet mask	First IP Address	Last IP Address
+A	4000	204.16.0.0/20	204.16.0.1	204.16.15.159
+B	4000	204.16.16.0/20	204.16.16.1	204.16.31.159
+C	2000	204.16.32.0/21	204.16.32.1	204.16.41.200
+D	8000	204.16.64.0/19	204.16.64.1	204.16.96.95
+
+
+
+
+
+
+
+B) [3 points] Later it is found that all of them need to be forwarded to the same router, anyway. Can any of them be aggregated? Explain.
+
+
+A: 204.16.00000000.00000000/20
+B: 204.16.00010000.00000000/20
+C: 204.16.00100000.00000000/21
+D: 204.16.01000000.00000000/19
+
+Yes. A and B can be aggregated into the 204.16.0.0/19 (range: 204.16.0.1 – 204.16.31.255) subnet (since the prefix matches until 204.16.000). If C has to be aggregated into the network with A and B, the network to be used is 204.16.0.0/18 in the range 204.16.0.1 – 204.16.63.255 (since the pattern matches until 204.16.00). They can all be aggregated into the same network 204.16.0.0/17 (range 204.16.0.1 – 204.16.127.255).
+
+
+Question 3: [7 points]
+
+An organization purchases a Class B address space and plans to use subnetting to assign addresses to its end nodes, which are spread across multiple physical networks. There are 30 networks, and the network with the largest number of hosts has 100 hosts. The administrator desires to use the same subnet mask in all routes of all internal routers if this is possible.
+
+
+A)	[4 points] What are the possible subnet masks it could use?
+
+
+Class B has 16 bits that can be used for the hosts. Since each network has only 100 hosts, 7 bits are needed for the hosts and the remaining 9 bits can be used for the network. 
+
+So, 30 subnets can be selected in the range 255.255.0.0 and 255.255.255.128.
+
+
+
+
+
+
+
+
+
+B)	[3 points] Suppose it is known that one of the networks will later grow to 150 hosts. Which of the masks identified in part (A) will continue to work and which will not?
+
+
+In this case only the subnets beginning at 255.255.0.0 till 255.255.255.0 can be used. The subnets from 255.255.255.1 to 255.255.255.128 cannot be used as they will be needed to support the hosts. The 30 subnets need to be selected in the range 255.255.0.0 till 255.255.255.0.
+
+
+
+
+
+
+
+
+
+Question 4: [6 points]
+
+
+A router has just received the following new IP addresses: 88.62.104.0/21, 88.62.112.0/21, 88.62.120.0/21 and 88.62.128.0/21. If all of them use the same outgoing interface, can they be aggregated? If so, to what? If not, why not?
+
+The first three subnets can be aggregated into 88.62.96.0/19 network. However in the last address, the third octet has a different pattern (the first bit is 1, while in all other networks, the first bit is 0) and cannot be aggregated together into the network.
+	CSC 573 Section 002
+	Fall 2012
+	Homework #1
+
+
+
+
+
+Keywords: Classless Addressing, CIDR, Sub-netting, Super-netting
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian   Student ID 1: abalasu3
+Name 2: Hareesh Lakshminarayanan Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+	Instructions
+•	You can do this homework in groups of two (at most).
+•	The total number of points is 30.
+•	You must answer all questions for full credit.
+•	Use only this paper for your answers, in the space provided.
+•	The due date is as posted on the web page (please submit your answers through Wolfware).
+
+	Question 1: [9 pts]
+
+[1] [2 points] Given the following two address/mask combinations assigned to devices A and B. Determine if these devices are on the same subnet or different subnets. 
+Device A: 172.16.17.30/20
+Device B: 172.16.28.15/20
+
+Yes. The two devices are on the same subnet. This is determined from the mask which is same meaning both the devices are in the same network (172.16.16.0).
+
+[2] Given the Class C network of 204.15.5.0/24. An administrator needs to subnet his network and has the following requirements:
+	
+	Subnet A: must support 14 hosts
+	Subnet B: must support 28 hosts
+	Subnet C: must support 2 hosts
+	Subnet D: must support 7 hosts
+     Subnet E: must support 28 host
+
+A)	[3 points] Provide the address/mask of the 5 subnets when all 5 subnets have the same size.
+
+A)	204.15.5.32/27
+B)	204.15.5.64/27
+C)	204.15.5.96/27
+D)	204.15.5.128/27
+E)	204.15.5.160/27
+
+B)	[4 points] Provide the address/mask of the 5 subnets when all 5 subnets have the minima possible power of two size. For example, a subnet with 7 hosts should accommodate at most 23=8 hosts.
+
+		The following are the subnets
+A)	204.15.5.16/28
+B)	204.15.5.32/27
+C)	204.15.5.2/31
+D)	204.15.5.8/29
+E)	204.15.5.64/27
+
+
+
+Question 2:  [8 points] 
+A large number of consecutive IP addresses are available starting at 204.16.0.0. Suppose that four organizations A, B, C, and D, request 4000, 4000, 2000, and 8000 addresses, respectively and in that order. 
+
+A)	[5 points] For each of these, give the first IP address assigned, the last IP address assigned, and the mask in the w.x.y.z/s notation.
+
+ 
+
+Organization	Addresses needed	Subnet mask	First IP Address	Last IP Address
+A	4000	204.16.0.0/20	204.16.0.1	204.16.15.159
+B	4000	204.16.16.0/20	204.16.16.1	204.16.31.159
+C	2000	204.16.32.0/21	204.16.32.1	204.16.41.200
+D	8000	204.16.64.0/19	204.16.64.1	204.16.96.95
+
+
+
+
+
+
+
+B) [3 points] Later it is found that all of them need to be forwarded to the same router, anyway. Can any of them be aggregated? Explain.
+
+
+A: 204.16.00000000.00000000/20
+B: 204.16.00010000.00000000/20
+C: 204.16.00100000.00000000/21
+D: 204.16.01000000.00000000/19
+
+Yes. A and B can be aggregated into the 204.16.0.0/19 (range: 204.16.0.1 – 204.16.31.255) subnet (since the prefix matches until 204.16.000). If C has to be aggregated into the network with A and B, the network to be used is 204.16.0.0/18 in the range 204.16.0.1 – 204.16.63.255 (since the pattern matches until 204.16.00). They can all be aggregated into the same network 204.16.0.0/17 (range 204.16.0.1 – 204.16.127.255).
+
+
+Question 3: [7 points]
+
+An organization purchases a Class B address space and plans to use subnetting to assign addresses to its end nodes, which are spread across multiple physical networks. There are 30 networks, and the network with the largest number of hosts has 100 hosts. The administrator desires to use the same subnet mask in all routes of all internal routers if this is possible.
+
+
+A)	[4 points] What are the possible subnet masks it could use?
+
+
+Class B has 16 bits that can be used for the hosts. Since each network has only 100 hosts, 7 bits are needed for the hosts and the remaining 9 bits can be used for the network. 
+
+So, 30 subnets can be selected in the range 255.255.0.0 and 255.255.255.128.
+
+
+
+
+
+
+
+
+
+B)	[3 points] Suppose it is known that one of the networks will later grow to 150 hosts. Which of the masks identified in part (A) will continue to work and which will not?
+
+
+In this case only the subnets beginning at 255.255.0.0 till 255.255.255.0 can be used. The subnets from 255.255.255.1 to 255.255.255.128 cannot be used as they will be needed to support the hosts. The 30 subnets need to be selected in the range 255.255.0.0 till 255.255.255.0.
+
+
+
+
+
+
+
+
+
+Question 4: [6 points]
+
+
+A router has just received the following new IP addresses: 88.62.104.0/21, 88.62.112.0/21, 88.62.120.0/21 and 88.62.128.0/21. If all of them use the same outgoing interface, can they be aggregated? If so, to what? If not, why not?
+
+The first three subnets can be aggregated into 88.62.96.0/19 network. However in the last address, the third octet has a different pattern (the first bit is 1, while in all other networks, the first bit is 0) and cannot be aggregated together into the network.
+	CSC 573 Section 002
+	Fall 2012
+	Homework #1
+
+
+
+
+
+Keywords: Classless Addressing, CIDR, Sub-netting, Super-netting
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian   Student ID 1: abalasu3
+Name 2: Hareesh Lakshminarayanan Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+	Instructions
+•	You can do this homework in groups of two (at most).
+•	The total number of points is 30.
+•	You must answer all questions for full credit.
+•	Use only this paper for your answers, in the space provided.
+•	The due date is as posted on the web page (please submit your answers through Wolfware).
+
+	Question 1: [9 pts]
+
+[1] [2 points] Given the following two address/mask combinations assigned to devices A and B. Determine if these devices are on the same subnet or different subnets. 
+Device A: 172.16.17.30/20
+Device B: 172.16.28.15/20
+
+Yes. The two devices are on the same subnet. This is determined from the mask which is same meaning both the devices are in the same network (172.16.16.0).
+
+[2] Given the Class C network of 204.15.5.0/24. An administrator needs to subnet his network and has the following requirements:
+	
+	Subnet A: must support 14 hosts
+	Subnet B: must support 28 hosts
+	Subnet C: must support 2 hosts
+	Subnet D: must support 7 hosts
+     Subnet E: must support 28 host
+
+A)	[3 points] Provide the address/mask of the 5 subnets when all 5 subnets have the same size.
+
+A)	204.15.5.32/27
+B)	204.15.5.64/27
+C)	204.15.5.96/27
+D)	204.15.5.128/27
+E)	204.15.5.160/27
+
+B)	[4 points] Provide the address/mask of the 5 subnets when all 5 subnets have the minima possible power of two size. For example, a subnet with 7 hosts should accommodate at most 23=8 hosts.
+
+		The following are the subnets
+A)	204.15.5.16/28
+B)	204.15.5.32/27
+C)	204.15.5.2/31
+D)	204.15.5.8/29
+E)	204.15.5.64/27
+
+
+
+Question 2:  [8 points] 
+A large number of consecutive IP addresses are available starting at 204.16.0.0. Suppose that four organizations A, B, C, and D, request 4000, 4000, 2000, and 8000 addresses, respectively and in that order. 
+
+A)	[5 points] For each of these, give the first IP address assigned, the last IP address assigned, and the mask in the w.x.y.z/s notation.
+
+ 
+
+Organization	Addresses needed	Subnet mask	First IP Address	Last IP Address
+A	4000	204.16.0.0/20	204.16.0.1	204.16.15.159
+B	4000	204.16.16.0/20	204.16.16.1	204.16.31.159
+C	2000	204.16.32.0/21	204.16.32.1	204.16.41.200
+D	8000	204.16.64.0/19	204.16.64.1	204.16.96.95
+
+
+
+
+
+
+
+B) [3 points] Later it is found that all of them need to be forwarded to the same router, anyway. Can any of them be aggregated? Explain.
+
+
+A: 204.16.00000000.00000000/20
+B: 204.16.00010000.00000000/20
+C: 204.16.00100000.00000000/21
+D: 204.16.01000000.00000000/19
+
+Yes. A and B can be aggregated into the 204.16.0.0/19 (range: 204.16.0.1 – 204.16.31.255) subnet (since the prefix matches until 204.16.000). If C has to be aggregated into the network with A and B, the network to be used is 204.16.0.0/18 in the range 204.16.0.1 – 204.16.63.255 (since the pattern matches until 204.16.00). They can all be aggregated into the same network 204.16.0.0/17 (range 204.16.0.1 – 204.16.127.255).
+
+
+Question 3: [7 points]
+
+An organization purchases a Class B address space and plans to use subnetting to assign addresses to its end nodes, which are spread across multiple physical networks. There are 30 networks, and the network with the largest number of hosts has 100 hosts. The administrator desires to use the same subnet mask in all routes of all internal routers if this is possible.
+
+
+A)	[4 points] What are the possible subnet masks it could use?
+
+
+Class B has 16 bits that can be used for the hosts. Since each network has only 100 hosts, 7 bits are needed for the hosts and the remaining 9 bits can be used for the network. 
+
+So, 30 subnets can be selected in the range 255.255.0.0 and 255.255.255.128.
+
+
+
+
+
+
+
+
+
+B)	[3 points] Suppose it is known that one of the networks will later grow to 150 hosts. Which of the masks identified in part (A) will continue to work and which will not?
+
+
+In this case only the subnets beginning at 255.255.0.0 till 255.255.255.0 can be used. The subnets from 255.255.255.1 to 255.255.255.128 cannot be used as they will be needed to support the hosts. The 30 subnets need to be selected in the range 255.255.0.0 till 255.255.255.0.
+
+
+
+
+
+
+
+
+
+Question 4: [6 points]
+
+
+A router has just received the following new IP addresses: 88.62.104.0/21, 88.62.112.0/21, 88.62.120.0/21 and 88.62.128.0/21. If all of them use the same outgoing interface, can they be aggregated? If so, to what? If not, why not?
+
+The first three subnets can be aggregated into 88.62.96.0/19 network. However in the last address, the third octet has a different pattern (the first bit is 1, while in all other networks, the first bit is 0) and cannot be aggregated together into the network.
+	CSC 573 Section 002
+	Fall 2012
+	Homework #1
+
+
+
+
+
+Keywords: Classless Addressing, CIDR, Sub-netting, Super-netting
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian   Student ID 1: abalasu3
+Name 2: Hareesh Lakshminarayanan Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+	Instructions
+•	You can do this homework in groups of two (at most).
+•	The total number of points is 30.
+•	You must answer all questions for full credit.
+•	Use only this paper for your answers, in the space provided.
+•	The due date is as posted on the web page (please submit your answers through Wolfware).
+
+	Question 1: [9 pts]
+
+[1] [2 points] Given the following two address/mask combinations assigned to devices A and B. Determine if these devices are on the same subnet or different subnets. 
+Device A: 172.16.17.30/20
+Device B: 172.16.28.15/20
+
+Yes. The two devices are on the same subnet. This is determined from the mask which is same meaning both the devices are in the same network (172.16.16.0).
+
+[2] Given the Class C network of 204.15.5.0/24. An administrator needs to subnet his network and has the following requirements:
+	
+	Subnet A: must support 14 hosts
+	Subnet B: must support 28 hosts
+	Subnet C: must support 2 hosts
+	Subnet D: must support 7 hosts
+     Subnet E: must support 28 host
+
+A)	[3 points] Provide the address/mask of the 5 subnets when all 5 subnets have the same size.
+
+A)	204.15.5.32/27
+B)	204.15.5.64/27
+C)	204.15.5.96/27
+D)	204.15.5.128/27
+E)	204.15.5.160/27
+
+B)	[4 points] Provide the address/mask of the 5 subnets when all 5 subnets have the minima possible power of two size. For example, a subnet with 7 hosts should accommodate at most 23=8 hosts.
+
+		The following are the subnets
+A)	204.15.5.16/28
+B)	204.15.5.32/27
+C)	204.15.5.2/31
+D)	204.15.5.8/29
+E)	204.15.5.64/27
+
+
+
+Question 2:  [8 points] 
+A large number of consecutive IP addresses are available starting at 204.16.0.0. Suppose that four organizations A, B, C, and D, request 4000, 4000, 2000, and 8000 addresses, respectively and in that order. 
+
+A)	[5 points] For each of these, give the first IP address assigned, the last IP address assigned, and the mask in the w.x.y.z/s notation.
+
+ 
+
+Organization	Addresses needed	Subnet mask	First IP Address	Last IP Address
+A	4000	204.16.0.0/20	204.16.0.1	204.16.15.159
+B	4000	204.16.16.0/20	204.16.16.1	204.16.31.159
+C	2000	204.16.32.0/21	204.16.32.1	204.16.41.200
+D	8000	204.16.64.0/19	204.16.64.1	204.16.96.95
+
+
+
+
+
+
+
+B) [3 points] Later it is found that all of them need to be forwarded to the same router, anyway. Can any of them be aggregated? Explain.
+
+
+A: 204.16.00000000.00000000/20
+B: 204.16.00010000.00000000/20
+C: 204.16.00100000.00000000/21
+D: 204.16.01000000.00000000/19
+
+Yes. A and B can be aggregated into the 204.16.0.0/19 (range: 204.16.0.1 – 204.16.31.255) subnet (since the prefix matches until 204.16.000). If C has to be aggregated into the network with A and B, the network to be used is 204.16.0.0/18 in the range 204.16.0.1 – 204.16.63.255 (since the pattern matches until 204.16.00). They can all be aggregated into the same network 204.16.0.0/17 (range 204.16.0.1 – 204.16.127.255).
+
+
+Question 3: [7 points]
+
+An organization purchases a Class B address space and plans to use subnetting to assign addresses to its end nodes, which are spread across multiple physical networks. There are 30 networks, and the network with the largest number of hosts has 100 hosts. The administrator desires to use the same subnet mask in all routes of all internal routers if this is possible.
+
+
+A)	[4 points] What are the possible subnet masks it could use?
+
+
+Class B has 16 bits that can be used for the hosts. Since each network has only 100 hosts, 7 bits are needed for the hosts and the remaining 9 bits can be used for the network. 
+
+So, 30 subnets can be selected in the range 255.255.0.0 and 255.255.255.128.
+
+
+
+
+
+
+
+
+
+B)	[3 points] Suppose it is known that one of the networks will later grow to 150 hosts. Which of the masks identified in part (A) will continue to work and which will not?
+
+
+In this case only the subnets beginning at 255.255.0.0 till 255.255.255.0 can be used. The subnets from 255.255.255.1 to 255.255.255.128 cannot be used as they will be needed to support the hosts. The 30 subnets need to be selected in the range 255.255.0.0 till 255.255.255.0.
+
+
+
+
+
+
+
+
+
+Question 4: [6 points]
+
+
+A router has just received the following new IP addresses: 88.62.104.0/21, 88.62.112.0/21, 88.62.120.0/21 and 88.62.128.0/21. If all of them use the same outgoing interface, can they be aggregated? If so, to what? If not, why not?
+
+The first three subnets can be aggregated into 88.62.96.0/19 network. However in the last address, the third octet has a different pattern (the first bit is 1, while in all other networks, the first bit is 0) and cannot be aggregated together into the network.
+	CSC 573 Section 002
+	Fall 2012
+	Homework #1
+
+
+
+
+
+Keywords: Classless Addressing, CIDR, Sub-netting, Super-netting
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian   Student ID 1: abalasu3
+Name 2: Hareesh Lakshminarayanan Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+	Instructions
+•	You can do this homework in groups of two (at most).
+•	The total number of points is 30.
+•	You must answer all questions for full credit.
+•	Use only this paper for your answers, in the space provided.
+•	The due date is as posted on the web page (please submit your answers through Wolfware).
+
+	Question 1: [9 pts]
+
+[1] [2 points] Given the following two address/mask combinations assigned to devices A and B. Determine if these devices are on the same subnet or different subnets. 
+Device A: 172.16.17.30/20
+Device B: 172.16.28.15/20
+
+Yes. The two devices are on the same subnet. This is determined from the mask which is same meaning both the devices are in the same network (172.16.16.0).
+
+[2] Given the Class C network of 204.15.5.0/24. An administrator needs to subnet his network and has the following requirements:
+	
+	Subnet A: must support 14 hosts
+	Subnet B: must support 28 hosts
+	Subnet C: must support 2 hosts
+	Subnet D: must support 7 hosts
+     Subnet E: must support 28 host
+
+A)	[3 points] Provide the address/mask of the 5 subnets when all 5 subnets have the same size.
+
+A)	204.15.5.32/27
+B)	204.15.5.64/27
+C)	204.15.5.96/27
+D)	204.15.5.128/27
+E)	204.15.5.160/27
+
+B)	[4 points] Provide the address/mask of the 5 subnets when all 5 subnets have the minima possible power of two size. For example, a subnet with 7 hosts should accommodate at most 23=8 hosts.
+
+		The following are the subnets
+A)	204.15.5.16/28
+B)	204.15.5.32/27
+C)	204.15.5.2/31
+D)	204.15.5.8/29
+E)	204.15.5.64/27
+
+
+
+Question 2:  [8 points] 
+A large number of consecutive IP addresses are available starting at 204.16.0.0. Suppose that four organizations A, B, C, and D, request 4000, 4000, 2000, and 8000 addresses, respectively and in that order. 
+
+A)	[5 points] For each of these, give the first IP address assigned, the last IP address assigned, and the mask in the w.x.y.z/s notation.
+
+ 
+
+Organization	Addresses needed	Subnet mask	First IP Address	Last IP Address
+A	4000	204.16.0.0/20	204.16.0.1	204.16.15.159
+B	4000	204.16.16.0/20	204.16.16.1	204.16.31.159
+C	2000	204.16.32.0/21	204.16.32.1	204.16.41.200
+D	8000	204.16.64.0/19	204.16.64.1	204.16.96.95
+
+
+
+
+
+
+
+B) [3 points] Later it is found that all of them need to be forwarded to the same router, anyway. Can any of them be aggregated? Explain.
+
+
+A: 204.16.00000000.00000000/20
+B: 204.16.00010000.00000000/20
+C: 204.16.00100000.00000000/21
+D: 204.16.01000000.00000000/19
+
+Yes. A and B can be aggregated into the 204.16.0.0/19 (range: 204.16.0.1 – 204.16.31.255) subnet (since the prefix matches until 204.16.000). If C has to be aggregated into the network with A and B, the network to be used is 204.16.0.0/18 in the range 204.16.0.1 – 204.16.63.255 (since the pattern matches until 204.16.00). They can all be aggregated into the same network 204.16.0.0/17 (range 204.16.0.1 – 204.16.127.255).
+
+
+Question 3: [7 points]
+
+An organization purchases a Class B address space and plans to use subnetting to assign addresses to its end nodes, which are spread across multiple physical networks. There are 30 networks, and the network with the largest number of hosts has 100 hosts. The administrator desires to use the same subnet mask in all routes of all internal routers if this is possible.
+
+
+A)	[4 points] What are the possible subnet masks it could use?
+
+
+Class B has 16 bits that can be used for the hosts. Since each network has only 100 hosts, 7 bits are needed for the hosts and the remaining 9 bits can be used for the network. 
+
+So, 30 subnets can be selected in the range 255.255.0.0 and 255.255.255.128.
+
+
+
+
+
+
+
+
+
+B)	[3 points] Suppose it is known that one of the networks will later grow to 150 hosts. Which of the masks identified in part (A) will continue to work and which will not?
+
+
+In this case only the subnets beginning at 255.255.0.0 till 255.255.255.0 can be used. The subnets from 255.255.255.1 to 255.255.255.128 cannot be used as they will be needed to support the hosts. The 30 subnets need to be selected in the range 255.255.0.0 till 255.255.255.0.
+
+
+
+
+
+
+
+
+
+Question 4: [6 points]
+
+
+A router has just received the following new IP addresses: 88.62.104.0/21, 88.62.112.0/21, 88.62.120.0/21 and 88.62.128.0/21. If all of them use the same outgoing interface, can they be aggregated? If so, to what? If not, why not?
+
+The first three subnets can be aggregated into 88.62.96.0/19 network. However in the last address, the third octet has a different pattern (the first bit is 1, while in all other networks, the first bit is 0) and cannot be aggregated together into the network.
+	CSC 573 Section 002
+	Fall 2012
+	Homework #1
+
+
+
+
+
+Keywords: Classless Addressing, CIDR, Sub-netting, Super-netting
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian   Student ID 1: abalasu3
+Name 2: Hareesh Lakshminarayanan Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+	Instructions
+•	You can do this homework in groups of two (at most).
+•	The total number of points is 30.
+•	You must answer all questions for full credit.
+•	Use only this paper for your answers, in the space provided.
+•	The due date is as posted on the web page (please submit your answers through Wolfware).
+
+	Question 1: [9 pts]
+
+[1] [2 points] Given the following two address/mask combinations assigned to devices A and B. Determine if these devices are on the same subnet or different subnets. 
+Device A: 172.16.17.30/20
+Device B: 172.16.28.15/20
+
+Yes. The two devices are on the same subnet. This is determined from the mask which is same meaning both the devices are in the same network (172.16.16.0).
+
+[2] Given the Class C network of 204.15.5.0/24. An administrator needs to subnet his network and has the following requirements:
+	
+	Subnet A: must support 14 hosts
+	Subnet B: must support 28 hosts
+	Subnet C: must support 2 hosts
+	Subnet D: must support 7 hosts
+     Subnet E: must support 28 host
+
+A)	[3 points] Provide the address/mask of the 5 subnets when all 5 subnets have the same size.
+
+A)	204.15.5.32/27
+B)	204.15.5.64/27
+C)	204.15.5.96/27
+D)	204.15.5.128/27
+E)	204.15.5.160/27
+
+B)	[4 points] Provide the address/mask of the 5 subnets when all 5 subnets have the minima possible power of two size. For example, a subnet with 7 hosts should accommodate at most 23=8 hosts.
+
+		The following are the subnets
+A)	204.15.5.16/28
+B)	204.15.5.32/27
+C)	204.15.5.2/31
+D)	204.15.5.8/29
+E)	204.15.5.64/27
+
+
+
+Question 2:  [8 points] 
+A large number of consecutive IP addresses are available starting at 204.16.0.0. Suppose that four organizations A, B, C, and D, request 4000, 4000, 2000, and 8000 addresses, respectively and in that order. 
+
+A)	[5 points] For each of these, give the first IP address assigned, the last IP address assigned, and the mask in the w.x.y.z/s notation.
+
+ 
+
+Organization	Addresses needed	Subnet mask	First IP Address	Last IP Address
+A	4000	204.16.0.0/20	204.16.0.1	204.16.15.159
+B	4000	204.16.16.0/20	204.16.16.1	204.16.31.159
+C	2000	204.16.32.0/21	204.16.32.1	204.16.41.200
+D	8000	204.16.64.0/19	204.16.64.1	204.16.96.95
+
+
+
+
+
+
+
+B) [3 points] Later it is found that all of them need to be forwarded to the same router, anyway. Can any of them be aggregated? Explain.
+
+
+A: 204.16.00000000.00000000/20
+B: 204.16.00010000.00000000/20
+C: 204.16.00100000.00000000/21
+D: 204.16.01000000.00000000/19
+
+Yes. A and B can be aggregated into the 204.16.0.0/19 (range: 204.16.0.1 – 204.16.31.255) subnet (since the prefix matches until 204.16.000). If C has to be aggregated into the network with A and B, the network to be used is 204.16.0.0/18 in the range 204.16.0.1 – 204.16.63.255 (since the pattern matches until 204.16.00). They can all be aggregated into the same network 204.16.0.0/17 (range 204.16.0.1 – 204.16.127.255).
+
+
+Question 3: [7 points]
+
+An organization purchases a Class B address space and plans to use subnetting to assign addresses to its end nodes, which are spread across multiple physical networks. There are 30 networks, and the network with the largest number of hosts has 100 hosts. The administrator desires to use the same subnet mask in all routes of all internal routers if this is possible.
+
+
+A)	[4 points] What are the possible subnet masks it could use?
+
+
+Class B has 16 bits that can be used for the hosts. Since each network has only 100 hosts, 7 bits are needed for the hosts and the remaining 9 bits can be used for the network. 
+
+So, 30 subnets can be selected in the range 255.255.0.0 and 255.255.255.128.
+
+
+
+
+
+
+
+
+
+B)	[3 points] Suppose it is known that one of the networks will later grow to 150 hosts. Which of the masks identified in part (A) will continue to work and which will not?
+
+
+In this case only the subnets beginning at 255.255.0.0 till 255.255.255.0 can be used. The subnets from 255.255.255.1 to 255.255.255.128 cannot be used as they will be needed to support the hosts. The 30 subnets need to be selected in the range 255.255.0.0 till 255.255.255.0.
+
+
+
+
+
+
+
+
+
+Question 4: [6 points]
+
+
+A router has just received the following new IP addresses: 88.62.104.0/21, 88.62.112.0/21, 88.62.120.0/21 and 88.62.128.0/21. If all of them use the same outgoing interface, can they be aggregated? If so, to what? If not, why not?
+
+The first three subnets can be aggregated into 88.62.96.0/19 network. However in the last address, the third octet has a different pattern (the first bit is 1, while in all other networks, the first bit is 0) and cannot be aggregated together into the network.
+	CSC 573 Section 002
+	Fall 2012
+	Homework #1
+
+
+
+
+
+Keywords: Classless Addressing, CIDR, Sub-netting, Super-netting
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian   Student ID 1: abalasu3
+Name 2: Hareesh Lakshminarayanan Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+	Instructions
+•	You can do this homework in groups of two (at most).
+•	The total number of points is 30.
+•	You must answer all questions for full credit.
+•	Use only this paper for your answers, in the space provided.
+•	The due date is as posted on the web page (please submit your answers through Wolfware).
+
+	Question 1: [9 pts]
+
+[1] [2 points] Given the following two address/mask combinations assigned to devices A and B. Determine if these devices are on the same subnet or different subnets. 
+Device A: 172.16.17.30/20
+Device B: 172.16.28.15/20
+
+Yes. The two devices are on the same subnet. This is determined from the mask which is same meaning both the devices are in the same network (172.16.16.0).
+
+[2] Given the Class C network of 204.15.5.0/24. An administrator needs to subnet his network and has the following requirements:
+	
+	Subnet A: must support 14 hosts
+	Subnet B: must support 28 hosts
+	Subnet C: must support 2 hosts
+	Subnet D: must support 7 hosts
+     Subnet E: must support 28 host
+
+A)	[3 points] Provide the address/mask of the 5 subnets when all 5 subnets have the same size.
+
+A)	204.15.5.32/27
+B)	204.15.5.64/27
+C)	204.15.5.96/27
+D)	204.15.5.128/27
+E)	204.15.5.160/27
+
+B)	[4 points] Provide the address/mask of the 5 subnets when all 5 subnets have the minima possible power of two size. For example, a subnet with 7 hosts should accommodate at most 23=8 hosts.
+
+		The following are the subnets
+A)	204.15.5.16/28
+B)	204.15.5.32/27
+C)	204.15.5.2/31
+D)	204.15.5.8/29
+E)	204.15.5.64/27
+
+
+
+Question 2:  [8 points] 
+A large number of consecutive IP addresses are available starting at 204.16.0.0. Suppose that four organizations A, B, C, and D, request 4000, 4000, 2000, and 8000 addresses, respectively and in that order. 
+
+A)	[5 points] For each of these, give the first IP address assigned, the last IP address assigned, and the mask in the w.x.y.z/s notation.
+
+ 
+
+Organization	Addresses needed	Subnet mask	First IP Address	Last IP Address
+A	4000	204.16.0.0/20	204.16.0.1	204.16.15.159
+B	4000	204.16.16.0/20	204.16.16.1	204.16.31.159
+C	2000	204.16.32.0/21	204.16.32.1	204.16.41.200
+D	8000	204.16.64.0/19	204.16.64.1	204.16.96.95
+
+
+
+
+
+
+
+B) [3 points] Later it is found that all of them need to be forwarded to the same router, anyway. Can any of them be aggregated? Explain.
+
+
+A: 204.16.00000000.00000000/20
+B: 204.16.00010000.00000000/20
+C: 204.16.00100000.00000000/21
+D: 204.16.01000000.00000000/19
+
+Yes. A and B can be aggregated into the 204.16.0.0/19 (range: 204.16.0.1 – 204.16.31.255) subnet (since the prefix matches until 204.16.000). If C has to be aggregated into the network with A and B, the network to be used is 204.16.0.0/18 in the range 204.16.0.1 – 204.16.63.255 (since the pattern matches until 204.16.00). They can all be aggregated into the same network 204.16.0.0/17 (range 204.16.0.1 – 204.16.127.255).
+
+
+Question 3: [7 points]
+
+An organization purchases a Class B address space and plans to use subnetting to assign addresses to its end nodes, which are spread across multiple physical networks. There are 30 networks, and the network with the largest number of hosts has 100 hosts. The administrator desires to use the same subnet mask in all routes of all internal routers if this is possible.
+
+
+A)	[4 points] What are the possible subnet masks it could use?
+
+
+Class B has 16 bits that can be used for the hosts. Since each network has only 100 hosts, 7 bits are needed for the hosts and the remaining 9 bits can be used for the network. 
+
+So, 30 subnets can be selected in the range 255.255.0.0 and 255.255.255.128.
+
+
+
+
+
+
+
+
+
+B)	[3 points] Suppose it is known that one of the networks will later grow to 150 hosts. Which of the masks identified in part (A) will continue to work and which will not?
+
+
+In this case only the subnets beginning at 255.255.0.0 till 255.255.255.0 can be used. The subnets from 255.255.255.1 to 255.255.255.128 cannot be used as they will be needed to support the hosts. The 30 subnets need to be selected in the range 255.255.0.0 till 255.255.255.0.
+
+
+
+
+
+
+
+
+
+Question 4: [6 points]
+
+
+A router has just received the following new IP addresses: 88.62.104.0/21, 88.62.112.0/21, 88.62.120.0/21 and 88.62.128.0/21. If all of them use the same outgoing interface, can they be aggregated? If so, to what? If not, why not?
+
+The first three subnets can be aggregated into 88.62.96.0/19 network. However in the last address, the third octet has a different pattern (the first bit is 1, while in all other networks, the first bit is 0) and cannot be aggregated together into the network.
+	CSC 573 Section 002
+	Fall 2012
+	Homework #1
+
+
+
+
+
+Keywords: Classless Addressing, CIDR, Sub-netting, Super-netting
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian   Student ID 1: abalasu3
+Name 2: Hareesh Lakshminarayanan Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+	Instructions
+•	You can do this homework in groups of two (at most).
+•	The total number of points is 30.
+•	You must answer all questions for full credit.
+•	Use only this paper for your answers, in the space provided.
+•	The due date is as posted on the web page (please submit your answers through Wolfware).
+
+	Question 1: [9 pts]
+
+[1] [2 points] Given the following two address/mask combinations assigned to devices A and B. Determine if these devices are on the same subnet or different subnets. 
+Device A: 172.16.17.30/20
+Device B: 172.16.28.15/20
+
+Yes. The two devices are on the same subnet. This is determined from the mask which is same meaning both the devices are in the same network (172.16.16.0).
+
+[2] Given the Class C network of 204.15.5.0/24. An administrator needs to subnet his network and has the following requirements:
+	
+	Subnet A: must support 14 hosts
+	Subnet B: must support 28 hosts
+	Subnet C: must support 2 hosts
+	Subnet D: must support 7 hosts
+     Subnet E: must support 28 host
+
+A)	[3 points] Provide the address/mask of the 5 subnets when all 5 subnets have the same size.
+
+A)	204.15.5.32/27
+B)	204.15.5.64/27
+C)	204.15.5.96/27
+D)	204.15.5.128/27
+E)	204.15.5.160/27
+
+B)	[4 points] Provide the address/mask of the 5 subnets when all 5 subnets have the minima possible power of two size. For example, a subnet with 7 hosts should accommodate at most 23=8 hosts.
+
+		The following are the subnets
+A)	204.15.5.16/28
+B)	204.15.5.32/27
+C)	204.15.5.2/31
+D)	204.15.5.8/29
+E)	204.15.5.64/27
+
+
+
+Question 2:  [8 points] 
+A large number of consecutive IP addresses are available starting at 204.16.0.0. Suppose that four organizations A, B, C, and D, request 4000, 4000, 2000, and 8000 addresses, respectively and in that order. 
+
+A)	[5 points] For each of these, give the first IP address assigned, the last IP address assigned, and the mask in the w.x.y.z/s notation.
+
+ 
+
+Organization	Addresses needed	Subnet mask	First IP Address	Last IP Address
+A	4000	204.16.0.0/20	204.16.0.1	204.16.15.159
+B	4000	204.16.16.0/20	204.16.16.1	204.16.31.159
+C	2000	204.16.32.0/21	204.16.32.1	204.16.41.200
+D	8000	204.16.64.0/19	204.16.64.1	204.16.96.95
+
+
+
+
+
+
+
+B) [3 points] Later it is found that all of them need to be forwarded to the same router, anyway. Can any of them be aggregated? Explain.
+
+
+A: 204.16.00000000.00000000/20
+B: 204.16.00010000.00000000/20
+C: 204.16.00100000.00000000/21
+D: 204.16.01000000.00000000/19
+
+Yes. A and B can be aggregated into the 204.16.0.0/19 (range: 204.16.0.1 – 204.16.31.255) subnet (since the prefix matches until 204.16.000). If C has to be aggregated into the network with A and B, the network to be used is 204.16.0.0/18 in the range 204.16.0.1 – 204.16.63.255 (since the pattern matches until 204.16.00). They can all be aggregated into the same network 204.16.0.0/17 (range 204.16.0.1 – 204.16.127.255).
+
+
+Question 3: [7 points]
+
+An organization purchases a Class B address space and plans to use subnetting to assign addresses to its end nodes, which are spread across multiple physical networks. There are 30 networks, and the network with the largest number of hosts has 100 hosts. The administrator desires to use the same subnet mask in all routes of all internal routers if this is possible.
+
+
+A)	[4 points] What are the possible subnet masks it could use?
+
+
+Class B has 16 bits that can be used for the hosts. Since each network has only 100 hosts, 7 bits are needed for the hosts and the remaining 9 bits can be used for the network. 
+
+So, 30 subnets can be selected in the range 255.255.0.0 and 255.255.255.128.
+
+
+
+
+
+
+
+
+
+B)	[3 points] Suppose it is known that one of the networks will later grow to 150 hosts. Which of the masks identified in part (A) will continue to work and which will not?
+
+
+In this case only the subnets beginning at 255.255.0.0 till 255.255.255.0 can be used. The subnets from 255.255.255.1 to 255.255.255.128 cannot be used as they will be needed to support the hosts. The 30 subnets need to be selected in the range 255.255.0.0 till 255.255.255.0.
+
+
+
+
+
+
+
+
+
+Question 4: [6 points]
+
+
+A router has just received the following new IP addresses: 88.62.104.0/21, 88.62.112.0/21, 88.62.120.0/21 and 88.62.128.0/21. If all of them use the same outgoing interface, can they be aggregated? If so, to what? If not, why not?
+
+The first three subnets can be aggregated into 88.62.96.0/19 network. However in the last address, the third octet has a different pattern (the first bit is 1, while in all other networks, the first bit is 0) and cannot be aggregated together into the network.
+
+	CSC 573 Section 002
+	Fall 2012
+	Homework #1
+
+
+
+
+
+Keywords: Classless Addressing, CIDR, Sub-netting, Super-netting
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian   Student ID 1: abalasu3
+Name 2: Hareesh Lakshminarayanan Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+	Instructions
+•	You can do this homework in groups of two (at most).
+•	The total number of points is 30.
+•	You must answer all questions for full credit.
+•	Use only this paper for your answers, in the space provided.
+•	The due date is as posted on the web page (please submit your answers through Wolfware).
+
+	Question 1: [9 pts]
+
+[1] [2 points] Given the following two address/mask combinations assigned to devices A and B. Determine if these devices are on the same subnet or different subnets. 
+Device A: 172.16.17.30/20
+Device B: 172.16.28.15/20
+
+Yes. The two devices are on the same subnet. This is determined from the mask which is same meaning both the devices are in the same network (172.16.16.0).
+
+[2] Given the Class C network of 204.15.5.0/24. An administrator needs to subnet his network and has the following requirements:
+	
+	Subnet A: must support 14 hosts
+	Subnet B: must support 28 hosts
+	Subnet C: must support 2 hosts
+	Subnet D: must support 7 hosts
+     Subnet E: must support 28 host
+
+A)	[3 points] Provide the address/mask of the 5 subnets when all 5 subnets have the same size.
+
+A)	204.15.5.32/27
+B)	204.15.5.64/27
+C)	204.15.5.96/27
+D)	204.15.5.128/27
+E)	204.15.5.160/27
+
+B)	[4 points] Provide the address/mask of the 5 subnets when all 5 subnets have the minima possible power of two size. For example, a subnet with 7 hosts should accommodate at most 23=8 hosts.
+
+		The following are the subnets
+A)	204.15.5.16/28
+B)	204.15.5.32/27
+C)	204.15.5.2/31
+D)	204.15.5.8/29
+E)	204.15.5.64/27
+
+
+
+Question 2:  [8 points] 
+A large number of consecutive IP addresses are available starting at 204.16.0.0. Suppose that four organizations A, B, C, and D, request 4000, 4000, 2000, and 8000 addresses, respectively and in that order. 
+
+A)	[5 points] For each of these, give the first IP address assigned, the last IP address assigned, and the mask in the w.x.y.z/s notation.
+
+ 
+
+Organization	Addresses needed	Subnet mask	First IP Address	Last IP Address
+A	4000	204.16.0.0/20	204.16.0.1	204.16.15.159
+B	4000	204.16.16.0/20	204.16.16.1	204.16.31.159
+C	2000	204.16.32.0/21	204.16.32.1	204.16.41.200
+D	8000	204.16.64.0/19	204.16.64.1	204.16.96.95
+
+
+
+
+
+
+
+B) [3 points] Later it is found that all of them need to be forwarded to the same router, anyway. Can any of them be aggregated? Explain.
+
+
+A: 204.16.00000000.00000000/20
+B: 204.16.00010000.00000000/20
+C: 204.16.00100000.00000000/21
+D: 204.16.01000000.00000000/19
+
+Yes. A and B can be aggregated into the 204.16.0.0/19 (range: 204.16.0.1 – 204.16.31.255) subnet (since the prefix matches until 204.16.000). If C has to be aggregated into the network with A and B, the network to be used is 204.16.0.0/18 in the range 204.16.0.1 – 204.16.63.255 (since the pattern matches until 204.16.00). They can all be aggregated into the same network 204.16.0.0/17 (range 204.16.0.1 – 204.16.127.255).
+
+
+Question 3: [7 points]
+
+An organization purchases a Class B address space and plans to use subnetting to assign addresses to its end nodes, which are spread across multiple physical networks. There are 30 networks, and the network with the largest number of hosts has 100 hosts. The administrator desires to use the same subnet mask in all routes of all internal routers if this is possible.
+
+
+A)	[4 points] What are the possible subnet masks it could use?
+
+
+Class B has 16 bits that can be used for the hosts. Since each network has only 100 hosts, 7 bits are needed for the hosts and the remaining 9 bits can be used for the network. 
+
+So, 30 subnets can be selected in the range 255.255.0.0 and 255.255.255.128.
+
+
+
+
+
+
+
+
+
+B)	[3 points] Suppose it is known that one of the networks will later grow to 150 hosts. Which of the masks identified in part (A) will continue to work and which will not?
+
+
+In this case only the subnets beginning at 255.255.0.0 till 255.255.255.0 can be used. The subnets from 255.255.255.1 to 255.255.255.128 cannot be used as they will be needed to support the hosts. The 30 subnets need to be selected in the range 255.255.0.0 till 255.255.255.0.
+
+
+
+
+
+
+
+
+
+Question 4: [6 points]
+
+
+A router has just received the following new IP addresses: 88.62.104.0/21, 88.62.112.0/21, 88.62.120.0/21 and 88.62.128.0/21. If all of them use the same outgoing interface, can they be aggregated? If so, to what? If not, why not?
+
+The first three subnets can be aggregated into 88.62.96.0/19 network. However in the last address, the third octet has a different pattern (the first bit is 1, while in all other networks, the first bit is 0) and cannot be aggregated together into the network.
+	CSC 573 Section 002
+	Fall 2012
+	Homework #1
+
+
+
+
+
+Keywords: Classless Addressing, CIDR, Sub-netting, Super-netting
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian   Student ID 1: abalasu3
+Name 2: Hareesh Lakshminarayanan Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+	Instructions
+•	You can do this homework in groups of two (at most).
+•	The total number of points is 30.
+•	You must answer all questions for full credit.
+•	Use only this paper for your answers, in the space provided.
+•	The due date is as posted on the web page (please submit your answers through Wolfware).
+
+	Question 1: [9 pts]
+
+[1] [2 points] Given the following two address/mask combinations assigned to devices A and B. Determine if these devices are on the same subnet or different subnets. 
+Device A: 172.16.17.30/20
+Device B: 172.16.28.15/20
+
+Yes. The two devices are on the same subnet. This is determined from the mask which is same meaning both the devices are in the same network (172.16.16.0).
+
+[2] Given the Class C network of 204.15.5.0/24. An administrator needs to subnet his network and has the following requirements:
+	
+	Subnet A: must support 14 hosts
+	Subnet B: must support 28 hosts
+	Subnet C: must support 2 hosts
+	Subnet D: must support 7 hosts
+     Subnet E: must support 28 host
+
+A)	[3 points] Provide the address/mask of the 5 subnets when all 5 subnets have the same size.
+
+A)	204.15.5.32/27
+B)	204.15.5.64/27
+C)	204.15.5.96/27
+D)	204.15.5.128/27
+E)	204.15.5.160/27
+
+B)	[4 points] Provide the address/mask of the 5 subnets when all 5 subnets have the minima possible power of two size. For example, a subnet with 7 hosts should accommodate at most 23=8 hosts.
+
+		The following are the subnets
+A)	204.15.5.16/28
+B)	204.15.5.32/27
+C)	204.15.5.2/31
+D)	204.15.5.8/29
+E)	204.15.5.64/27
+
+
+
+Question 2:  [8 points] 
+A large number of consecutive IP addresses are available starting at 204.16.0.0. Suppose that four organizations A, B, C, and D, request 4000, 4000, 2000, and 8000 addresses, respectively and in that order. 
+
+A)	[5 points] For each of these, give the first IP address assigned, the last IP address assigned, and the mask in the w.x.y.z/s notation.
+
+ 
+
+Organization	Addresses needed	Subnet mask	First IP Address	Last IP Address
+A	4000	204.16.0.0/20	204.16.0.1	204.16.15.159
+B	4000	204.16.16.0/20	204.16.16.1	204.16.31.159
+C	2000	204.16.32.0/21	204.16.32.1	204.16.41.200
+D	8000	204.16.64.0/19	204.16.64.1	204.16.96.95
+
+
+
+
+
+
+
+B) [3 points] Later it is found that all of them need to be forwarded to the same router, anyway. Can any of them be aggregated? Explain.
+
+
+A: 204.16.00000000.00000000/20
+B: 204.16.00010000.00000000/20
+C: 204.16.00100000.00000000/21
+D: 204.16.01000000.00000000/19
+
+Yes. A and B can be aggregated into the 204.16.0.0/19 (range: 204.16.0.1 – 204.16.31.255) subnet (since the prefix matches until 204.16.000). If C has to be aggregated into the network with A and B, the network to be used is 204.16.0.0/18 in the range 204.16.0.1 – 204.16.63.255 (since the pattern matches until 204.16.00). They can all be aggregated into the same network 204.16.0.0/17 (range 204.16.0.1 – 204.16.127.255).
+
+
+Question 3: [7 points]
+
+An organization purchases a Class B address space and plans to use subnetting to assign addresses to its end nodes, which are spread across multiple physical networks. There are 30 networks, and the network with the largest number of hosts has 100 hosts. The administrator desires to use the same subnet mask in all routes of all internal routers if this is possible.
+
+
+A)	[4 points] What are the possible subnet masks it could use?
+
+
+Class B has 16 bits that can be used for the hosts. Since each network has only 100 hosts, 7 bits are needed for the hosts and the remaining 9 bits can be used for the network. 
+
+So, 30 subnets can be selected in the range 255.255.0.0 and 255.255.255.128.
+
+
+
+
+
+
+
+
+
+B)	[3 points] Suppose it is known that one of the networks will later grow to 150 hosts. Which of the masks identified in part (A) will continue to work and which will not?
+
+
+In this case only the subnets beginning at 255.255.0.0 till 255.255.255.0 can be used. The subnets from 255.255.255.1 to 255.255.255.128 cannot be used as they will be needed to support the hosts. The 30 subnets need to be selected in the range 255.255.0.0 till 255.255.255.0.
+
+
+
+
+
+
+
+
+
+Question 4: [6 points]
+
+
+A router has just received the following new IP addresses: 88.62.104.0/21, 88.62.112.0/21, 88.62.120.0/21 and 88.62.128.0/21. If all of them use the same outgoing interface, can they be aggregated? If so, to what? If not, why not?
+
+The first three subnets can be aggregated into 88.62.96.0/19 network. However in the last address, the third octet has a different pattern (the first bit is 1, while in all other networks, the first bit is 0) and cannot be aggregated together into the network.
+	CSC 573 Section 002
+	Fall 2012
+	Homework #1
+
+
+
+
+
+Keywords: Classless Addressing, CIDR, Sub-netting, Super-netting
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian   Student ID 1: abalasu3
+Name 2: Hareesh Lakshminarayanan Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+	Instructions
+•	You can do this homework in groups of two (at most).
+•	The total number of points is 30.
+•	You must answer all questions for full credit.
+•	Use only this paper for your answers, in the space provided.
+•	The due date is as posted on the web page (please submit your answers through Wolfware).
+
+	Question 1: [9 pts]
+
+[1] [2 points] Given the following two address/mask combinations assigned to devices A and B. Determine if these devices are on the same subnet or different subnets. 
+Device A: 172.16.17.30/20
+Device B: 172.16.28.15/20
+
+Yes. The two devices are on the same subnet. This is determined from the mask which is same meaning both the devices are in the same network (172.16.16.0).
+
+[2] Given the Class C network of 204.15.5.0/24. An administrator needs to subnet his network and has the following requirements:
+	
+	Subnet A: must support 14 hosts
+	Subnet B: must support 28 hosts
+	Subnet C: must support 2 hosts
+	Subnet D: must support 7 hosts
+     Subnet E: must support 28 host
+
+A)	[3 points] Provide the address/mask of the 5 subnets when all 5 subnets have the same size.
+
+A)	204.15.5.32/27
+B)	204.15.5.64/27
+C)	204.15.5.96/27
+D)	204.15.5.128/27
+E)	204.15.5.160/27
+
+B)	[4 points] Provide the address/mask of the 5 subnets when all 5 subnets have the minima possible power of two size. For example, a subnet with 7 hosts should accommodate at most 23=8 hosts.
+
+		The following are the subnets
+A)	204.15.5.16/28
+B)	204.15.5.32/27
+C)	204.15.5.2/31
+D)	204.15.5.8/29
+E)	204.15.5.64/27
+
+
+
+Question 2:  [8 points] 
+A large number of consecutive IP addresses are available starting at 204.16.0.0. Suppose that four organizations A, B, C, and D, request 4000, 4000, 2000, and 8000 addresses, respectively and in that order. 
+
+A)	[5 points] For each of these, give the first IP address assigned, the last IP address assigned, and the mask in the w.x.y.z/s notation.
+
+ 
+
+Organization	Addresses needed	Subnet mask	First IP Address	Last IP Address
+A	4000	204.16.0.0/20	204.16.0.1	204.16.15.159
+B	4000	204.16.16.0/20	204.16.16.1	204.16.31.159
+C	2000	204.16.32.0/21	204.16.32.1	204.16.41.200
+D	8000	204.16.64.0/19	204.16.64.1	204.16.96.95
+
+
+
+
+
+
+
+B) [3 points] Later it is found that all of them need to be forwarded to the same router, anyway. Can any of them be aggregated? Explain.
+
+
+A: 204.16.00000000.00000000/20
+B: 204.16.00010000.00000000/20
+C: 204.16.00100000.00000000/21
+D: 204.16.01000000.00000000/19
+
+Yes. A and B can be aggregated into the 204.16.0.0/19 (range: 204.16.0.1 – 204.16.31.255) subnet (since the prefix matches until 204.16.000). If C has to be aggregated into the network with A and B, the network to be used is 204.16.0.0/18 in the range 204.16.0.1 – 204.16.63.255 (since the pattern matches until 204.16.00). They can all be aggregated into the same network 204.16.0.0/17 (range 204.16.0.1 – 204.16.127.255).
+
+
+Question 3: [7 points]
+
+An organization purchases a Class B address space and plans to use subnetting to assign addresses to its end nodes, which are spread across multiple physical networks. There are 30 networks, and the network with the largest number of hosts has 100 hosts. The administrator desires to use the same subnet mask in all routes of all internal routers if this is possible.
+
+
+A)	[4 points] What are the possible subnet masks it could use?
+
+
+Class B has 16 bits that can be used for the hosts. Since each network has only 100 hosts, 7 bits are needed for the hosts and the remaining 9 bits can be used for the network. 
+
+So, 30 subnets can be selected in the range 255.255.0.0 and 255.255.255.128.
+
+
+
+
+
+
+
+
+
+B)	[3 points] Suppose it is known that one of the networks will later grow to 150 hosts. Which of the masks identified in part (A) will continue to work and which will not?
+
+
+In this case only the subnets beginning at 255.255.0.0 till 255.255.255.0 can be used. The subnets from 255.255.255.1 to 255.255.255.128 cannot be used as they will be needed to support the hosts. The 30 subnets need to be selected in the range 255.255.0.0 till 255.255.255.0.
+
+
+
+
+
+
+
+
+
+Question 4: [6 points]
+
+
+A router has just received the following new IP addresses: 88.62.104.0/21, 88.62.112.0/21, 88.62.120.0/21 and 88.62.128.0/21. If all of them use the same outgoing interface, can they be aggregated? If so, to what? If not, why not?
+
+The first three subnets can be aggregated into 88.62.96.0/19 network. However in the last address, the third octet has a different pattern (the first bit is 1, while in all other networks, the first bit is 0) and cannot be aggregated together into the network.
+	CSC 573 Section 002
+	Fall 2012
+	Homework #1
+
+
+
+
+
+Keywords: Classless Addressing, CIDR, Sub-netting, Super-netting
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian   Student ID 1: abalasu3
+Name 2: Hareesh Lakshminarayanan Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+	Instructions
+•	You can do this homework in groups of two (at most).
+•	The total number of points is 30.
+•	You must answer all questions for full credit.
+•	Use only this paper for your answers, in the space provided.
+•	The due date is as posted on the web page (please submit your answers through Wolfware).
+
+	Question 1: [9 pts]
+
+[1] [2 points] Given the following two address/mask combinations assigned to devices A and B. Determine if these devices are on the same subnet or different subnets. 
+Device A: 172.16.17.30/20
+Device B: 172.16.28.15/20
+
+Yes. The two devices are on the same subnet. This is determined from the mask which is same meaning both the devices are in the same network (172.16.16.0).
+
+[2] Given the Class C network of 204.15.5.0/24. An administrator needs to subnet his network and has the following requirements:
+	
+	Subnet A: must support 14 hosts
+	Subnet B: must support 28 hosts
+	Subnet C: must support 2 hosts
+	Subnet D: must support 7 hosts
+     Subnet E: must support 28 host
+
+A)	[3 points] Provide the address/mask of the 5 subnets when all 5 subnets have the same size.
+
+A)	204.15.5.32/27
+B)	204.15.5.64/27
+C)	204.15.5.96/27
+D)	204.15.5.128/27
+E)	204.15.5.160/27
+
+B)	[4 points] Provide the address/mask of the 5 subnets when all 5 subnets have the minima possible power of two size. For example, a subnet with 7 hosts should accommodate at most 23=8 hosts.
+
+		The following are the subnets
+A)	204.15.5.16/28
+B)	204.15.5.32/27
+C)	204.15.5.2/31
+D)	204.15.5.8/29
+E)	204.15.5.64/27
+
+
+
+Question 2:  [8 points] 
+A large number of consecutive IP addresses are available starting at 204.16.0.0. Suppose that four organizations A, B, C, and D, request 4000, 4000, 2000, and 8000 addresses, respectively and in that order. 
+
+A)	[5 points] For each of these, give the first IP address assigned, the last IP address assigned, and the mask in the w.x.y.z/s notation.
+
+ 
+
+Organization	Addresses needed	Subnet mask	First IP Address	Last IP Address
+A	4000	204.16.0.0/20	204.16.0.1	204.16.15.159
+B	4000	204.16.16.0/20	204.16.16.1	204.16.31.159
+C	2000	204.16.32.0/21	204.16.32.1	204.16.41.200
+D	8000	204.16.64.0/19	204.16.64.1	204.16.96.95
+
+
+
+
+
+
+
+B) [3 points] Later it is found that all of them need to be forwarded to the same router, anyway. Can any of them be aggregated? Explain.
+
+
+A: 204.16.00000000.00000000/20
+B: 204.16.00010000.00000000/20
+C: 204.16.00100000.00000000/21
+D: 204.16.01000000.00000000/19
+
+Yes. A and B can be aggregated into the 204.16.0.0/19 (range: 204.16.0.1 – 204.16.31.255) subnet (since the prefix matches until 204.16.000). If C has to be aggregated into the network with A and B, the network to be used is 204.16.0.0/18 in the range 204.16.0.1 – 204.16.63.255 (since the pattern matches until 204.16.00). They can all be aggregated into the same network 204.16.0.0/17 (range 204.16.0.1 – 204.16.127.255).
+
+
+Question 3: [7 points]
+
+An organization purchases a Class B address space and plans to use subnetting to assign addresses to its end nodes, which are spread across multiple physical networks. There are 30 networks, and the network with the largest number of hosts has 100 hosts. The administrator desires to use the same subnet mask in all routes of all internal routers if this is possible.
+
+
+A)	[4 points] What are the possible subnet masks it could use?
+
+
+Class B has 16 bits that can be used for the hosts. Since each network has only 100 hosts, 7 bits are needed for the hosts and the remaining 9 bits can be used for the network. 
+
+So, 30 subnets can be selected in the range 255.255.0.0 and 255.255.255.128.
+
+
+
+
+
+
+
+
+
+B)	[3 points] Suppose it is known that one of the networks will later grow to 150 hosts. Which of the masks identified in part (A) will continue to work and which will not?
+
+
+In this case only the subnets beginning at 255.255.0.0 till 255.255.255.0 can be used. The subnets from 255.255.255.1 to 255.255.255.128 cannot be used as they will be needed to support the hosts. The 30 subnets need to be selected in the range 255.255.0.0 till 255.255.255.0.
+
+
+
+
+
+
+
+
+
+Question 4: [6 points]
+
+
+A router has just received the following new IP addresses: 88.62.104.0/21, 88.62.112.0/21, 88.62.120.0/21 and 88.62.128.0/21. If all of them use the same outgoing interface, can they be aggregated? If so, to what? If not, why not?
+
+The first three subnets can be aggregated into 88.62.96.0/19 network. However in the last address, the third octet has a different pattern (the first bit is 1, while in all other networks, the first bit is 0) and cannot be aggregated together into the network.
+	CSC 573 Section 002
+	Fall 2012
+	Homework #1
+
+
+
+
+
+Keywords: Classless Addressing, CIDR, Sub-netting, Super-netting
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian   Student ID 1: abalasu3
+Name 2: Hareesh Lakshminarayanan Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+	Instructions
+•	You can do this homework in groups of two (at most).
+•	The total number of points is 30.
+•	You must answer all questions for full credit.
+•	Use only this paper for your answers, in the space provided.
+•	The due date is as posted on the web page (please submit your answers through Wolfware).
+
+	Question 1: [9 pts]
+
+[1] [2 points] Given the following two address/mask combinations assigned to devices A and B. Determine if these devices are on the same subnet or different subnets. 
+Device A: 172.16.17.30/20
+Device B: 172.16.28.15/20
+
+Yes. The two devices are on the same subnet. This is determined from the mask which is same meaning both the devices are in the same network (172.16.16.0).
+
+[2] Given the Class C network of 204.15.5.0/24. An administrator needs to subnet his network and has the following requirements:
+	
+	Subnet A: must support 14 hosts
+	Subnet B: must support 28 hosts
+	Subnet C: must support 2 hosts
+	Subnet D: must support 7 hosts
+     Subnet E: must support 28 host
+
+A)	[3 points] Provide the address/mask of the 5 subnets when all 5 subnets have the same size.
+
+A)	204.15.5.32/27
+B)	204.15.5.64/27
+C)	204.15.5.96/27
+D)	204.15.5.128/27
+E)	204.15.5.160/27
+
+B)	[4 points] Provide the address/mask of the 5 subnets when all 5 subnets have the minima possible power of two size. For example, a subnet with 7 hosts should accommodate at most 23=8 hosts.
+
+		The following are the subnets
+A)	204.15.5.16/28
+B)	204.15.5.32/27
+C)	204.15.5.2/31
+D)	204.15.5.8/29
+E)	204.15.5.64/27
+
+
+
+Question 2:  [8 points] 
+A large number of consecutive IP addresses are available starting at 204.16.0.0. Suppose that four organizations A, B, C, and D, request 4000, 4000, 2000, and 8000 addresses, respectively and in that order. 
+
+A)	[5 points] For each of these, give the first IP address assigned, the last IP address assigned, and the mask in the w.x.y.z/s notation.
+
+ 
+
+Organization	Addresses needed	Subnet mask	First IP Address	Last IP Address
+A	4000	204.16.0.0/20	204.16.0.1	204.16.15.159
+B	4000	204.16.16.0/20	204.16.16.1	204.16.31.159
+C	2000	204.16.32.0/21	204.16.32.1	204.16.41.200
+D	8000	204.16.64.0/19	204.16.64.1	204.16.96.95
+
+
+
+
+
+
+
+B) [3 points] Later it is found that all of them need to be forwarded to the same router, anyway. Can any of them be aggregated? Explain.
+
+
+A: 204.16.00000000.00000000/20
+B: 204.16.00010000.00000000/20
+C: 204.16.00100000.00000000/21
+D: 204.16.01000000.00000000/19
+
+Yes. A and B can be aggregated into the 204.16.0.0/19 (range: 204.16.0.1 – 204.16.31.255) subnet (since the prefix matches until 204.16.000). If C has to be aggregated into the network with A and B, the network to be used is 204.16.0.0/18 in the range 204.16.0.1 – 204.16.63.255 (since the pattern matches until 204.16.00). They can all be aggregated into the same network 204.16.0.0/17 (range 204.16.0.1 – 204.16.127.255).
+
+
+Question 3: [7 points]
+
+An organization purchases a Class B address space and plans to use subnetting to assign addresses to its end nodes, which are spread across multiple physical networks. There are 30 networks, and the network with the largest number of hosts has 100 hosts. The administrator desires to use the same subnet mask in all routes of all internal routers if this is possible.
+
+
+A)	[4 points] What are the possible subnet masks it could use?
+
+
+Class B has 16 bits that can be used for the hosts. Since each network has only 100 hosts, 7 bits are needed for the hosts and the remaining 9 bits can be used for the network. 
+
+So, 30 subnets can be selected in the range 255.255.0.0 and 255.255.255.128.
+
+
+
+
+
+
+
+
+
+B)	[3 points] Suppose it is known that one of the networks will later grow to 150 hosts. Which of the masks identified in part (A) will continue to work and which will not?
+
+
+In this case only the subnets beginning at 255.255.0.0 till 255.255.255.0 can be used. The subnets from 255.255.255.1 to 255.255.255.128 cannot be used as they will be needed to support the hosts. The 30 subnets need to be selected in the range 255.255.0.0 till 255.255.255.0.
+
+
+
+
+
+
+
+
+
+Question 4: [6 points]
+
+
+A router has just received the following new IP addresses: 88.62.104.0/21, 88.62.112.0/21, 88.62.120.0/21 and 88.62.128.0/21. If all of them use the same outgoing interface, can they be aggregated? If so, to what? If not, why not?
+
+The first three subnets can be aggregated into 88.62.96.0/19 network. However in the last address, the third octet has a different pattern (the first bit is 1, while in all other networks, the first bit is 0) and cannot be aggregated together into the network.
+	CSC 573 Section 002
+	Fall 2012
+	Homework #1
+
+
+
+
+
+Keywords: Classless Addressing, CIDR, Sub-netting, Super-netting
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian   Student ID 1: abalasu3
+Name 2: Hareesh Lakshminarayanan Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+	Instructions
+•	You can do this homework in groups of two (at most).
+•	The total number of points is 30.
+•	You must answer all questions for full credit.
+•	Use only this paper for your answers, in the space provided.
+•	The due date is as posted on the web page (please submit your answers through Wolfware).
+
+	Question 1: [9 pts]
+
+[1] [2 points] Given the following two address/mask combinations assigned to devices A and B. Determine if these devices are on the same subnet or different subnets. 
+Device A: 172.16.17.30/20
+Device B: 172.16.28.15/20
+
+Yes. The two devices are on the same subnet. This is determined from the mask which is same meaning both the devices are in the same network (172.16.16.0).
+
+[2] Given the Class C network of 204.15.5.0/24. An administrator needs to subnet his network and has the following requirements:
+	
+	Subnet A: must support 14 hosts
+	Subnet B: must support 28 hosts
+	Subnet C: must support 2 hosts
+	Subnet D: must support 7 hosts
+     Subnet E: must support 28 host
+
+A)	[3 points] Provide the address/mask of the 5 subnets when all 5 subnets have the same size.
+
+A)	204.15.5.32/27
+B)	204.15.5.64/27
+C)	204.15.5.96/27
+D)	204.15.5.128/27
+E)	204.15.5.160/27
+
+B)	[4 points] Provide the address/mask of the 5 subnets when all 5 subnets have the minima possible power of two size. For example, a subnet with 7 hosts should accommodate at most 23=8 hosts.
+
+		The following are the subnets
+A)	204.15.5.16/28
+B)	204.15.5.32/27
+C)	204.15.5.2/31
+D)	204.15.5.8/29
+E)	204.15.5.64/27
+
+
+
+Question 2:  [8 points] 
+A large number of consecutive IP addresses are available starting at 204.16.0.0. Suppose that four organizations A, B, C, and D, request 4000, 4000, 2000, and 8000 addresses, respectively and in that order. 
+
+A)	[5 points] For each of these, give the first IP address assigned, the last IP address assigned, and the mask in the w.x.y.z/s notation.
+
+ 
+
+Organization	Addresses needed	Subnet mask	First IP Address	Last IP Address
+A	4000	204.16.0.0/20	204.16.0.1	204.16.15.159
+B	4000	204.16.16.0/20	204.16.16.1	204.16.31.159
+C	2000	204.16.32.0/21	204.16.32.1	204.16.41.200
+D	8000	204.16.64.0/19	204.16.64.1	204.16.96.95
+
+
+
+
+
+
+
+B) [3 points] Later it is found that all of them need to be forwarded to the same router, anyway. Can any of them be aggregated? Explain.
+
+
+A: 204.16.00000000.00000000/20
+B: 204.16.00010000.00000000/20
+C: 204.16.00100000.00000000/21
+D: 204.16.01000000.00000000/19
+
+Yes. A and B can be aggregated into the 204.16.0.0/19 (range: 204.16.0.1 – 204.16.31.255) subnet (since the prefix matches until 204.16.000). If C has to be aggregated into the network with A and B, the network to be used is 204.16.0.0/18 in the range 204.16.0.1 – 204.16.63.255 (since the pattern matches until 204.16.00). They can all be aggregated into the same network 204.16.0.0/17 (range 204.16.0.1 – 204.16.127.255).
+
+
+Question 3: [7 points]
+
+An organization purchases a Class B address space and plans to use subnetting to assign addresses to its end nodes, which are spread across multiple physical networks. There are 30 networks, and the network with the largest number of hosts has 100 hosts. The administrator desires to use the same subnet mask in all routes of all internal routers if this is possible.
+
+
+A)	[4 points] What are the possible subnet masks it could use?
+
+
+Class B has 16 bits that can be used for the hosts. Since each network has only 100 hosts, 7 bits are needed for the hosts and the remaining 9 bits can be used for the network. 
+
+So, 30 subnets can be selected in the range 255.255.0.0 and 255.255.255.128.
+
+
+
+
+
+
+
+
+
+B)	[3 points] Suppose it is known that one of the networks will later grow to 150 hosts. Which of the masks identified in part (A) will continue to work and which will not?
+
+
+In this case only the subnets beginning at 255.255.0.0 till 255.255.255.0 can be used. The subnets from 255.255.255.1 to 255.255.255.128 cannot be used as they will be needed to support the hosts. The 30 subnets need to be selected in the range 255.255.0.0 till 255.255.255.0.
+
+
+
+
+
+
+
+
+
+Question 4: [6 points]
+
+
+A router has just received the following new IP addresses: 88.62.104.0/21, 88.62.112.0/21, 88.62.120.0/21 and 88.62.128.0/21. If all of them use the same outgoing interface, can they be aggregated? If so, to what? If not, why not?
+
+The first three subnets can be aggregated into 88.62.96.0/19 network. However in the last address, the third octet has a different pattern (the first bit is 1, while in all other networks, the first bit is 0) and cannot be aggregated together into the network.
+	CSC 573 Section 002
+	Fall 2012
+	Homework #1
+
+
+
+
+
+Keywords: Classless Addressing, CIDR, Sub-netting, Super-netting
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian   Student ID 1: abalasu3
+Name 2: Hareesh Lakshminarayanan Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+	Instructions
+•	You can do this homework in groups of two (at most).
+•	The total number of points is 30.
+•	You must answer all questions for full credit.
+•	Use only this paper for your answers, in the space provided.
+•	The due date is as posted on the web page (please submit your answers through Wolfware).
+
+	Question 1: [9 pts]
+
+[1] [2 points] Given the following two address/mask combinations assigned to devices A and B. Determine if these devices are on the same subnet or different subnets. 
+Device A: 172.16.17.30/20
+Device B: 172.16.28.15/20
+
+Yes. The two devices are on the same subnet. This is determined from the mask which is same meaning both the devices are in the same network (172.16.16.0).
+
+[2] Given the Class C network of 204.15.5.0/24. An administrator needs to subnet his network and has the following requirements:
+	
+	Subnet A: must support 14 hosts
+	Subnet B: must support 28 hosts
+	Subnet C: must support 2 hosts
+	Subnet D: must support 7 hosts
+     Subnet E: must support 28 host
+
+A)	[3 points] Provide the address/mask of the 5 subnets when all 5 subnets have the same size.
+
+A)	204.15.5.32/27
+B)	204.15.5.64/27
+C)	204.15.5.96/27
+D)	204.15.5.128/27
+E)	204.15.5.160/27
+
+B)	[4 points] Provide the address/mask of the 5 subnets when all 5 subnets have the minima possible power of two size. For example, a subnet with 7 hosts should accommodate at most 23=8 hosts.
+
+		The following are the subnets
+A)	204.15.5.16/28
+B)	204.15.5.32/27
+C)	204.15.5.2/31
+D)	204.15.5.8/29
+E)	204.15.5.64/27
+
+
+
+Question 2:  [8 points] 
+A large number of consecutive IP addresses are available starting at 204.16.0.0. Suppose that four organizations A, B, C, and D, request 4000, 4000, 2000, and 8000 addresses, respectively and in that order. 
+
+A)	[5 points] For each of these, give the first IP address assigned, the last IP address assigned, and the mask in the w.x.y.z/s notation.
+
+ 
+
+Organization	Addresses needed	Subnet mask	First IP Address	Last IP Address
+A	4000	204.16.0.0/20	204.16.0.1	204.16.15.159
+B	4000	204.16.16.0/20	204.16.16.1	204.16.31.159
+C	2000	204.16.32.0/21	204.16.32.1	204.16.41.200
+D	8000	204.16.64.0/19	204.16.64.1	204.16.96.95
+
+
+
+
+
+
+
+B) [3 points] Later it is found that all of them need to be forwarded to the same router, anyway. Can any of them be aggregated? Explain.
+
+
+A: 204.16.00000000.00000000/20
+B: 204.16.00010000.00000000/20
+C: 204.16.00100000.00000000/21
+D: 204.16.01000000.00000000/19
+
+Yes. A and B can be aggregated into the 204.16.0.0/19 (range: 204.16.0.1 – 204.16.31.255) subnet (since the prefix matches until 204.16.000). If C has to be aggregated into the network with A and B, the network to be used is 204.16.0.0/18 in the range 204.16.0.1 – 204.16.63.255 (since the pattern matches until 204.16.00). They can all be aggregated into the same network 204.16.0.0/17 (range 204.16.0.1 – 204.16.127.255).
+
+
+Question 3: [7 points]
+
+An organization purchases a Class B address space and plans to use subnetting to assign addresses to its end nodes, which are spread across multiple physical networks. There are 30 networks, and the network with the largest number of hosts has 100 hosts. The administrator desires to use the same subnet mask in all routes of all internal routers if this is possible.
+
+
+A)	[4 points] What are the possible subnet masks it could use?
+
+
+Class B has 16 bits that can be used for the hosts. Since each network has only 100 hosts, 7 bits are needed for the hosts and the remaining 9 bits can be used for the network. 
+
+So, 30 subnets can be selected in the range 255.255.0.0 and 255.255.255.128.
+
+
+
+
+
+
+
+
+
+B)	[3 points] Suppose it is known that one of the networks will later grow to 150 hosts. Which of the masks identified in part (A) will continue to work and which will not?
+
+
+In this case only the subnets beginning at 255.255.0.0 till 255.255.255.0 can be used. The subnets from 255.255.255.1 to 255.255.255.128 cannot be used as they will be needed to support the hosts. The 30 subnets need to be selected in the range 255.255.0.0 till 255.255.255.0.
+
+
+
+
+
+
+
+
+
+Question 4: [6 points]
+
+
+A router has just received the following new IP addresses: 88.62.104.0/21, 88.62.112.0/21, 88.62.120.0/21 and 88.62.128.0/21. If all of them use the same outgoing interface, can they be aggregated? If so, to what? If not, why not?
+
+The first three subnets can be aggregated into 88.62.96.0/19 network. However in the last address, the third octet has a different pattern (the first bit is 1, while in all other networks, the first bit is 0) and cannot be aggregated together into the network.
+	CSC 573 Section 002
+	Fall 2012
+	Homework #1
+
+
+
+
+
+Keywords: Classless Addressing, CIDR, Sub-netting, Super-netting
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian   Student ID 1: abalasu3
+Name 2: Hareesh Lakshminarayanan Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+	Instructions
+•	You can do this homework in groups of two (at most).
+•	The total number of points is 30.
+•	You must answer all questions for full credit.
+•	Use only this paper for your answers, in the space provided.
+•	The due date is as posted on the web page (please submit your answers through Wolfware).
+
+	Question 1: [9 pts]
+
+[1] [2 points] Given the following two address/mask combinations assigned to devices A and B. Determine if these devices are on the same subnet or different subnets. 
+Device A: 172.16.17.30/20
+Device B: 172.16.28.15/20
+
+Yes. The two devices are on the same subnet. This is determined from the mask which is same meaning both the devices are in the same network (172.16.16.0).
+
+[2] Given the Class C network of 204.15.5.0/24. An administrator needs to subnet his network and has the following requirements:
+	
+	Subnet A: must support 14 hosts
+	Subnet B: must support 28 hosts
+	Subnet C: must support 2 hosts
+	Subnet D: must support 7 hosts
+     Subnet E: must support 28 host
+
+A)	[3 points] Provide the address/mask of the 5 subnets when all 5 subnets have the same size.
+
+A)	204.15.5.32/27
+B)	204.15.5.64/27
+C)	204.15.5.96/27
+D)	204.15.5.128/27
+E)	204.15.5.160/27
+
+B)	[4 points] Provide the address/mask of the 5 subnets when all 5 subnets have the minima possible power of two size. For example, a subnet with 7 hosts should accommodate at most 23=8 hosts.
+
+		The following are the subnets
+A)	204.15.5.16/28
+B)	204.15.5.32/27
+C)	204.15.5.2/31
+D)	204.15.5.8/29
+E)	204.15.5.64/27
+
+
+
+Question 2:  [8 points] 
+A large number of consecutive IP addresses are available starting at 204.16.0.0. Suppose that four organizations A, B, C, and D, request 4000, 4000, 2000, and 8000 addresses, respectively and in that order. 
+
+A)	[5 points] For each of these, give the first IP address assigned, the last IP address assigned, and the mask in the w.x.y.z/s notation.
+
+ 
+
+Organization	Addresses needed	Subnet mask	First IP Address	Last IP Address
+A	4000	204.16.0.0/20	204.16.0.1	204.16.15.159
+B	4000	204.16.16.0/20	204.16.16.1	204.16.31.159
+C	2000	204.16.32.0/21	204.16.32.1	204.16.41.200
+D	8000	204.16.64.0/19	204.16.64.1	204.16.96.95
+
+
+
+
+
+
+
+B) [3 points] Later it is found that all of them need to be forwarded to the same router, anyway. Can any of them be aggregated? Explain.
+
+
+A: 204.16.00000000.00000000/20
+B: 204.16.00010000.00000000/20
+C: 204.16.00100000.00000000/21
+D: 204.16.01000000.00000000/19
+
+Yes. A and B can be aggregated into the 204.16.0.0/19 (range: 204.16.0.1 – 204.16.31.255) subnet (since the prefix matches until 204.16.000). If C has to be aggregated into the network with A and B, the network to be used is 204.16.0.0/18 in the range 204.16.0.1 – 204.16.63.255 (since the pattern matches until 204.16.00). They can all be aggregated into the same network 204.16.0.0/17 (range 204.16.0.1 – 204.16.127.255).
+
+
+Question 3: [7 points]
+
+An organization purchases a Class B address space and plans to use subnetting to assign addresses to its end nodes, which are spread across multiple physical networks. There are 30 networks, and the network with the largest number of hosts has 100 hosts. The administrator desires to use the same subnet mask in all routes of all internal routers if this is possible.
+
+
+A)	[4 points] What are the possible subnet masks it could use?
+
+
+Class B has 16 bits that can be used for the hosts. Since each network has only 100 hosts, 7 bits are needed for the hosts and the remaining 9 bits can be used for the network. 
+
+So, 30 subnets can be selected in the range 255.255.0.0 and 255.255.255.128.
+
+
+
+
+
+
+
+
+
+B)	[3 points] Suppose it is known that one of the networks will later grow to 150 hosts. Which of the masks identified in part (A) will continue to work and which will not?
+
+
+In this case only the subnets beginning at 255.255.0.0 till 255.255.255.0 can be used. The subnets from 255.255.255.1 to 255.255.255.128 cannot be used as they will be needed to support the hosts. The 30 subnets need to be selected in the range 255.255.0.0 till 255.255.255.0.
+
+
+
+
+
+
+
+
+
+Question 4: [6 points]
+
+
+A router has just received the following new IP addresses: 88.62.104.0/21, 88.62.112.0/21, 88.62.120.0/21 and 88.62.128.0/21. If all of them use the same outgoing interface, can they be aggregated? If so, to what? If not, why not?
+
+The first three subnets can be aggregated into 88.62.96.0/19 network. However in the last address, the third octet has a different pattern (the first bit is 1, while in all other networks, the first bit is 0) and cannot be aggregated together into the network.
+	CSC 573 Section 002
+	Fall 2012
+	Homework #1
+
+
+
+
+
+Keywords: Classless Addressing, CIDR, Sub-netting, Super-netting
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian   Student ID 1: abalasu3
+Name 2: Hareesh Lakshminarayanan Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+	Instructions
+•	You can do this homework in groups of two (at most).
+•	The total number of points is 30.
+•	You must answer all questions for full credit.
+•	Use only this paper for your answers, in the space provided.
+•	The due date is as posted on the web page (please submit your answers through Wolfware).
+
+	Question 1: [9 pts]
+
+[1] [2 points] Given the following two address/mask combinations assigned to devices A and B. Determine if these devices are on the same subnet or different subnets. 
+Device A: 172.16.17.30/20
+Device B: 172.16.28.15/20
+
+Yes. The two devices are on the same subnet. This is determined from the mask which is same meaning both the devices are in the same network (172.16.16.0).
+
+[2] Given the Class C network of 204.15.5.0/24. An administrator needs to subnet his network and has the following requirements:
+	
+	Subnet A: must support 14 hosts
+	Subnet B: must support 28 hosts
+	Subnet C: must support 2 hosts
+	Subnet D: must support 7 hosts
+     Subnet E: must support 28 host
+
+A)	[3 points] Provide the address/mask of the 5 subnets when all 5 subnets have the same size.
+
+A)	204.15.5.32/27
+B)	204.15.5.64/27
+C)	204.15.5.96/27
+D)	204.15.5.128/27
+E)	204.15.5.160/27
+
+B)	[4 points] Provide the address/mask of the 5 subnets when all 5 subnets have the minima possible power of two size. For example, a subnet with 7 hosts should accommodate at most 23=8 hosts.
+
+		The following are the subnets
+A)	204.15.5.16/28
+B)	204.15.5.32/27
+C)	204.15.5.2/31
+D)	204.15.5.8/29
+E)	204.15.5.64/27
+
+
+
+Question 2:  [8 points] 
+A large number of consecutive IP addresses are available starting at 204.16.0.0. Suppose that four organizations A, B, C, and D, request 4000, 4000, 2000, and 8000 addresses, respectively and in that order. 
+
+A)	[5 points] For each of these, give the first IP address assigned, the last IP address assigned, and the mask in the w.x.y.z/s notation.
+
+ 
+
+Organization	Addresses needed	Subnet mask	First IP Address	Last IP Address
+A	4000	204.16.0.0/20	204.16.0.1	204.16.15.159
+B	4000	204.16.16.0/20	204.16.16.1	204.16.31.159
+C	2000	204.16.32.0/21	204.16.32.1	204.16.41.200
+D	8000	204.16.64.0/19	204.16.64.1	204.16.96.95
+
+
+
+
+
+
+
+B) [3 points] Later it is found that all of them need to be forwarded to the same router, anyway. Can any of them be aggregated? Explain.
+
+
+A: 204.16.00000000.00000000/20
+B: 204.16.00010000.00000000/20
+C: 204.16.00100000.00000000/21
+D: 204.16.01000000.00000000/19
+
+Yes. A and B can be aggregated into the 204.16.0.0/19 (range: 204.16.0.1 – 204.16.31.255) subnet (since the prefix matches until 204.16.000). If C has to be aggregated into the network with A and B, the network to be used is 204.16.0.0/18 in the range 204.16.0.1 – 204.16.63.255 (since the pattern matches until 204.16.00). They can all be aggregated into the same network 204.16.0.0/17 (range 204.16.0.1 – 204.16.127.255).
+
+
+Question 3: [7 points]
+
+An organization purchases a Class B address space and plans to use subnetting to assign addresses to its end nodes, which are spread across multiple physical networks. There are 30 networks, and the network with the largest number of hosts has 100 hosts. The administrator desires to use the same subnet mask in all routes of all internal routers if this is possible.
+
+
+A)	[4 points] What are the possible subnet masks it could use?
+
+
+Class B has 16 bits that can be used for the hosts. Since each network has only 100 hosts, 7 bits are needed for the hosts and the remaining 9 bits can be used for the network. 
+
+So, 30 subnets can be selected in the range 255.255.0.0 and 255.255.255.128.
+
+
+
+
+
+
+
+
+
+B)	[3 points] Suppose it is known that one of the networks will later grow to 150 hosts. Which of the masks identified in part (A) will continue to work and which will not?
+
+
+In this case only the subnets beginning at 255.255.0.0 till 255.255.255.0 can be used. The subnets from 255.255.255.1 to 255.255.255.128 cannot be used as they will be needed to support the hosts. The 30 subnets need to be selected in the range 255.255.0.0 till 255.255.255.0.
+
+
+
+
+
+
+
+
+
+Question 4: [6 points]
+
+
+A router has just received the following new IP addresses: 88.62.104.0/21, 88.62.112.0/21, 88.62.120.0/21 and 88.62.128.0/21. If all of them use the same outgoing interface, can they be aggregated? If so, to what? If not, why not?
+
+The first three subnets can be aggregated into 88.62.96.0/19 network. However in the last address, the third octet has a different pattern (the first bit is 1, while in all other networks, the first bit is 0) and cannot be aggregated together into the network.
+	CSC 573 Section 002
+	Fall 2012
+	Homework #1
+
+
+
+
+
+Keywords: Classless Addressing, CIDR, Sub-netting, Super-netting
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian   Student ID 1: abalasu3
+Name 2: Hareesh Lakshminarayanan Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+	Instructions
+•	You can do this homework in groups of two (at most).
+•	The total number of points is 30.
+•	You must answer all questions for full credit.
+•	Use only this paper for your answers, in the space provided.
+•	The due date is as posted on the web page (please submit your answers through Wolfware).
+
+	Question 1: [9 pts]
+
+[1] [2 points] Given the following two address/mask combinations assigned to devices A and B. Determine if these devices are on the same subnet or different subnets. 
+Device A: 172.16.17.30/20
+Device B: 172.16.28.15/20
+
+Yes. The two devices are on the same subnet. This is determined from the mask which is same meaning both the devices are in the same network (172.16.16.0).
+
+[2] Given the Class C network of 204.15.5.0/24. An administrator needs to subnet his network and has the following requirements:
+	
+	Subnet A: must support 14 hosts
+	Subnet B: must support 28 hosts
+	Subnet C: must support 2 hosts
+	Subnet D: must support 7 hosts
+     Subnet E: must support 28 host
+
+A)	[3 points] Provide the address/mask of the 5 subnets when all 5 subnets have the same size.
+
+A)	204.15.5.32/27
+B)	204.15.5.64/27
+C)	204.15.5.96/27
+D)	204.15.5.128/27
+E)	204.15.5.160/27
+
+B)	[4 points] Provide the address/mask of the 5 subnets when all 5 subnets have the minima possible power of two size. For example, a subnet with 7 hosts should accommodate at most 23=8 hosts.
+
+		The following are the subnets
+A)	204.15.5.16/28
+B)	204.15.5.32/27
+C)	204.15.5.2/31
+D)	204.15.5.8/29
+E)	204.15.5.64/27
+
+
+
+Question 2:  [8 points] 
+A large number of consecutive IP addresses are available starting at 204.16.0.0. Suppose that four organizations A, B, C, and D, request 4000, 4000, 2000, and 8000 addresses, respectively and in that order. 
+
+A)	[5 points] For each of these, give the first IP address assigned, the last IP address assigned, and the mask in the w.x.y.z/s notation.
+
+ 
+
+Organization	Addresses needed	Subnet mask	First IP Address	Last IP Address
+A	4000	204.16.0.0/20	204.16.0.1	204.16.15.159
+B	4000	204.16.16.0/20	204.16.16.1	204.16.31.159
+C	2000	204.16.32.0/21	204.16.32.1	204.16.41.200
+D	8000	204.16.64.0/19	204.16.64.1	204.16.96.95
+
+
+
+
+
+
+
+B) [3 points] Later it is found that all of them need to be forwarded to the same router, anyway. Can any of them be aggregated? Explain.
+
+
+A: 204.16.00000000.00000000/20
+B: 204.16.00010000.00000000/20
+C: 204.16.00100000.00000000/21
+D: 204.16.01000000.00000000/19
+
+Yes. A and B can be aggregated into the 204.16.0.0/19 (range: 204.16.0.1 – 204.16.31.255) subnet (since the prefix matches until 204.16.000). If C has to be aggregated into the network with A and B, the network to be used is 204.16.0.0/18 in the range 204.16.0.1 – 204.16.63.255 (since the pattern matches until 204.16.00). They can all be aggregated into the same network 204.16.0.0/17 (range 204.16.0.1 – 204.16.127.255).
+
+
+Question 3: [7 points]
+
+An organization purchases a Class B address space and plans to use subnetting to assign addresses to its end nodes, which are spread across multiple physical networks. There are 30 networks, and the network with the largest number of hosts has 100 hosts. The administrator desires to use the same subnet mask in all routes of all internal routers if this is possible.
+
+
+A)	[4 points] What are the possible subnet masks it could use?
+
+
+Class B has 16 bits that can be used for the hosts. Since each network has only 100 hosts, 7 bits are needed for the hosts and the remaining 9 bits can be used for the network. 
+
+So, 30 subnets can be selected in the range 255.255.0.0 and 255.255.255.128.
+
+
+
+
+
+
+
+
+
+B)	[3 points] Suppose it is known that one of the networks will later grow to 150 hosts. Which of the masks identified in part (A) will continue to work and which will not?
+
+
+In this case only the subnets beginning at 255.255.0.0 till 255.255.255.0 can be used. The subnets from 255.255.255.1 to 255.255.255.128 cannot be used as they will be needed to support the hosts. The 30 subnets need to be selected in the range 255.255.0.0 till 255.255.255.0.
+
+
+
+
+
+
+
+
+
+Question 4: [6 points]
+
+
+A router has just received the following new IP addresses: 88.62.104.0/21, 88.62.112.0/21, 88.62.120.0/21 and 88.62.128.0/21. If all of them use the same outgoing interface, can they be aggregated? If so, to what? If not, why not?
+
+The first three subnets can be aggregated into 88.62.96.0/19 network. However in the last address, the third octet has a different pattern (the first bit is 1, while in all other networks, the first bit is 0) and cannot be aggregated together into the network.
+	CSC 573 Section 002
+	Fall 2012
+	Homework #1
+
+
+
+
+
+Keywords: Classless Addressing, CIDR, Sub-netting, Super-netting
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian   Student ID 1: abalasu3
+Name 2: Hareesh Lakshminarayanan Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+	Instructions
+•	You can do this homework in groups of two (at most).
+•	The total number of points is 30.
+•	You must answer all questions for full credit.
+•	Use only this paper for your answers, in the space provided.
+•	The due date is as posted on the web page (please submit your answers through Wolfware).
+
+	Question 1: [9 pts]
+
+[1] [2 points] Given the following two address/mask combinations assigned to devices A and B. Determine if these devices are on the same subnet or different subnets. 
+Device A: 172.16.17.30/20
+Device B: 172.16.28.15/20
+
+Yes. The two devices are on the same subnet. This is determined from the mask which is same meaning both the devices are in the same network (172.16.16.0).
+
+[2] Given the Class C network of 204.15.5.0/24. An administrator needs to subnet his network and has the following requirements:
+	
+	Subnet A: must support 14 hosts
+	Subnet B: must support 28 hosts
+	Subnet C: must support 2 hosts
+	Subnet D: must support 7 hosts
+     Subnet E: must support 28 host
+
+A)	[3 points] Provide the address/mask of the 5 subnets when all 5 subnets have the same size.
+
+A)	204.15.5.32/27
+B)	204.15.5.64/27
+C)	204.15.5.96/27
+D)	204.15.5.128/27
+E)	204.15.5.160/27
+
+B)	[4 points] Provide the address/mask of the 5 subnets when all 5 subnets have the minima possible power of two size. For example, a subnet with 7 hosts should accommodate at most 23=8 hosts.
+
+		The following are the subnets
+A)	204.15.5.16/28
+B)	204.15.5.32/27
+C)	204.15.5.2/31
+D)	204.15.5.8/29
+E)	204.15.5.64/27
+
+
+
+Question 2:  [8 points] 
+A large number of consecutive IP addresses are available starting at 204.16.0.0. Suppose that four organizations A, B, C, and D, request 4000, 4000, 2000, and 8000 addresses, respectively and in that order. 
+
+A)	[5 points] For each of these, give the first IP address assigned, the last IP address assigned, and the mask in the w.x.y.z/s notation.
+
+ 
+
+Organization	Addresses needed	Subnet mask	First IP Address	Last IP Address
+A	4000	204.16.0.0/20	204.16.0.1	204.16.15.159
+B	4000	204.16.16.0/20	204.16.16.1	204.16.31.159
+C	2000	204.16.32.0/21	204.16.32.1	204.16.41.200
+D	8000	204.16.64.0/19	204.16.64.1	204.16.96.95
+
+
+
+
+
+
+
+B) [3 points] Later it is found that all of them need to be forwarded to the same router, anyway. Can any of them be aggregated? Explain.
+
+
+A: 204.16.00000000.00000000/20
+B: 204.16.00010000.00000000/20
+C: 204.16.00100000.00000000/21
+D: 204.16.01000000.00000000/19
+
+Yes. A and B can be aggregated into the 204.16.0.0/19 (range: 204.16.0.1 – 204.16.31.255) subnet (since the prefix matches until 204.16.000). If C has to be aggregated into the network with A and B, the network to be used is 204.16.0.0/18 in the range 204.16.0.1 – 204.16.63.255 (since the pattern matches until 204.16.00). They can all be aggregated into the same network 204.16.0.0/17 (range 204.16.0.1 – 204.16.127.255).
+
+
+Question 3: [7 points]
+
+An organization purchases a Class B address space and plans to use subnetting to assign addresses to its end nodes, which are spread across multiple physical networks. There are 30 networks, and the network with the largest number of hosts has 100 hosts. The administrator desires to use the same subnet mask in all routes of all internal routers if this is possible.
+
+
+A)	[4 points] What are the possible subnet masks it could use?
+
+
+Class B has 16 bits that can be used for the hosts. Since each network has only 100 hosts, 7 bits are needed for the hosts and the remaining 9 bits can be used for the network. 
+
+So, 30 subnets can be selected in the range 255.255.0.0 and 255.255.255.128.
+
+
+
+
+
+
+
+
+
+B)	[3 points] Suppose it is known that one of the networks will later grow to 150 hosts. Which of the masks identified in part (A) will continue to work and which will not?
+
+
+In this case only the subnets beginning at 255.255.0.0 till 255.255.255.0 can be used. The subnets from 255.255.255.1 to 255.255.255.128 cannot be used as they will be needed to support the hosts. The 30 subnets need to be selected in the range 255.255.0.0 till 255.255.255.0.
+
+
+
+
+
+
+
+
+
+Question 4: [6 points]
+
+
+A router has just received the following new IP addresses: 88.62.104.0/21, 88.62.112.0/21, 88.62.120.0/21 and 88.62.128.0/21. If all of them use the same outgoing interface, can they be aggregated? If so, to what? If not, why not?
+
+The first three subnets can be aggregated into 88.62.96.0/19 network. However in the last address, the third octet has a different pattern (the first bit is 1, while in all other networks, the first bit is 0) and cannot be aggregated together into the network.
+	CSC 573 Section 002
+	Fall 2012
+	Homework #1
+
+
+
+
+
+Keywords: Classless Addressing, CIDR, Sub-netting, Super-netting
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian   Student ID 1: abalasu3
+Name 2: Hareesh Lakshminarayanan Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+	Instructions
+•	You can do this homework in groups of two (at most).
+•	The total number of points is 30.
+•	You must answer all questions for full credit.
+•	Use only this paper for your answers, in the space provided.
+•	The due date is as posted on the web page (please submit your answers through Wolfware).
+
+	Question 1: [9 pts]
+
+[1] [2 points] Given the following two address/mask combinations assigned to devices A and B. Determine if these devices are on the same subnet or different subnets. 
+Device A: 172.16.17.30/20
+Device B: 172.16.28.15/20
+
+Yes. The two devices are on the same subnet. This is determined from the mask which is same meaning both the devices are in the same network (172.16.16.0).
+
+[2] Given the Class C network of 204.15.5.0/24. An administrator needs to subnet his network and has the following requirements:
+	
+	Subnet A: must support 14 hosts
+	Subnet B: must support 28 hosts
+	Subnet C: must support 2 hosts
+	Subnet D: must support 7 hosts
+     Subnet E: must support 28 host
+
+A)	[3 points] Provide the address/mask of the 5 subnets when all 5 subnets have the same size.
+
+A)	204.15.5.32/27
+B)	204.15.5.64/27
+C)	204.15.5.96/27
+D)	204.15.5.128/27
+E)	204.15.5.160/27
+
+B)	[4 points] Provide the address/mask of the 5 subnets when all 5 subnets have the minima possible power of two size. For example, a subnet with 7 hosts should accommodate at most 23=8 hosts.
+
+		The following are the subnets
+A)	204.15.5.16/28
+B)	204.15.5.32/27
+C)	204.15.5.2/31
+D)	204.15.5.8/29
+E)	204.15.5.64/27
+
+
+
+Question 2:  [8 points] 
+A large number of consecutive IP addresses are available starting at 204.16.0.0. Suppose that four organizations A, B, C, and D, request 4000, 4000, 2000, and 8000 addresses, respectively and in that order. 
+
+A)	[5 points] For each of these, give the first IP address assigned, the last IP address assigned, and the mask in the w.x.y.z/s notation.
+
+ 
+
+Organization	Addresses needed	Subnet mask	First IP Address	Last IP Address
+A	4000	204.16.0.0/20	204.16.0.1	204.16.15.159
+B	4000	204.16.16.0/20	204.16.16.1	204.16.31.159
+C	2000	204.16.32.0/21	204.16.32.1	204.16.41.200
+D	8000	204.16.64.0/19	204.16.64.1	204.16.96.95
+
+
+
+
+
+
+
+B) [3 points] Later it is found that all of them need to be forwarded to the same router, anyway. Can any of them be aggregated? Explain.
+
+
+A: 204.16.00000000.00000000/20
+B: 204.16.00010000.00000000/20
+C: 204.16.00100000.00000000/21
+D: 204.16.01000000.00000000/19
+
+Yes. A and B can be aggregated into the 204.16.0.0/19 (range: 204.16.0.1 – 204.16.31.255) subnet (since the prefix matches until 204.16.000). If C has to be aggregated into the network with A and B, the network to be used is 204.16.0.0/18 in the range 204.16.0.1 – 204.16.63.255 (since the pattern matches until 204.16.00). They can all be aggregated into the same network 204.16.0.0/17 (range 204.16.0.1 – 204.16.127.255).
+
+
+Question 3: [7 points]
+
+An organization purchases a Class B address space and plans to use subnetting to assign addresses to its end nodes, which are spread across multiple physical networks. There are 30 networks, and the network with the largest number of hosts has 100 hosts. The administrator desires to use the same subnet mask in all routes of all internal routers if this is possible.
+
+
+A)	[4 points] What are the possible subnet masks it could use?
+
+
+Class B has 16 bits that can be used for the hosts. Since each network has only 100 hosts, 7 bits are needed for the hosts and the remaining 9 bits can be used for the network. 
+
+So, 30 subnets can be selected in the range 255.255.0.0 and 255.255.255.128.
+
+
+
+
+
+
+
+
+
+B)	[3 points] Suppose it is known that one of the networks will later grow to 150 hosts. Which of the masks identified in part (A) will continue to work and which will not?
+
+
+In this case only the subnets beginning at 255.255.0.0 till 255.255.255.0 can be used. The subnets from 255.255.255.1 to 255.255.255.128 cannot be used as they will be needed to support the hosts. The 30 subnets need to be selected in the range 255.255.0.0 till 255.255.255.0.
+
+
+
+
+
+
+
+
+
+Question 4: [6 points]
+
+
+A router has just received the following new IP addresses: 88.62.104.0/21, 88.62.112.0/21, 88.62.120.0/21 and 88.62.128.0/21. If all of them use the same outgoing interface, can they be aggregated? If so, to what? If not, why not?
+
+The first three subnets can be aggregated into 88.62.96.0/19 network. However in the last address, the third octet has a different pattern (the first bit is 1, while in all other networks, the first bit is 0) and cannot be aggregated together into the network.
+	CSC 573 Section 002
+	Fall 2012
+	Homework #1
+
+
+
+
+
+Keywords: Classless Addressing, CIDR, Sub-netting, Super-netting
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian   Student ID 1: abalasu3
+Name 2: Hareesh Lakshminarayanan Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+	Instructions
+•	You can do this homework in groups of two (at most).
+•	The total number of points is 30.
+•	You must answer all questions for full credit.
+•	Use only this paper for your answers, in the space provided.
+•	The due date is as posted on the web page (please submit your answers through Wolfware).
+
+	Question 1: [9 pts]
+
+[1] [2 points] Given the following two address/mask combinations assigned to devices A and B. Determine if these devices are on the same subnet or different subnets. 
+Device A: 172.16.17.30/20
+Device B: 172.16.28.15/20
+
+Yes. The two devices are on the same subnet. This is determined from the mask which is same meaning both the devices are in the same network (172.16.16.0).
+
+[2] Given the Class C network of 204.15.5.0/24. An administrator needs to subnet his network and has the following requirements:
+	
+	Subnet A: must support 14 hosts
+	Subnet B: must support 28 hosts
+	Subnet C: must support 2 hosts
+	Subnet D: must support 7 hosts
+     Subnet E: must support 28 host
+
+A)	[3 points] Provide the address/mask of the 5 subnets when all 5 subnets have the same size.
+
+A)	204.15.5.32/27
+B)	204.15.5.64/27
+C)	204.15.5.96/27
+D)	204.15.5.128/27
+E)	204.15.5.160/27
+
+B)	[4 points] Provide the address/mask of the 5 subnets when all 5 subnets have the minima possible power of two size. For example, a subnet with 7 hosts should accommodate at most 23=8 hosts.
+
+		The following are the subnets
+A)	204.15.5.16/28
+B)	204.15.5.32/27
+C)	204.15.5.2/31
+D)	204.15.5.8/29
+E)	204.15.5.64/27
+
+
+
+Question 2:  [8 points] 
+A large number of consecutive IP addresses are available starting at 204.16.0.0. Suppose that four organizations A, B, C, and D, request 4000, 4000, 2000, and 8000 addresses, respectively and in that order. 
+
+A)	[5 points] For each of these, give the first IP address assigned, the last IP address assigned, and the mask in the w.x.y.z/s notation.
+
+ 
+
+Organization	Addresses needed	Subnet mask	First IP Address	Last IP Address
+A	4000	204.16.0.0/20	204.16.0.1	204.16.15.159
+B	4000	204.16.16.0/20	204.16.16.1	204.16.31.159
+C	2000	204.16.32.0/21	204.16.32.1	204.16.41.200
+D	8000	204.16.64.0/19	204.16.64.1	204.16.96.95
+
+
+
+
+
+
+
+B) [3 points] Later it is found that all of them need to be forwarded to the same router, anyway. Can any of them be aggregated? Explain.
+
+
+A: 204.16.00000000.00000000/20
+B: 204.16.00010000.00000000/20
+C: 204.16.00100000.00000000/21
+D: 204.16.01000000.00000000/19
+
+Yes. A and B can be aggregated into the 204.16.0.0/19 (range: 204.16.0.1 – 204.16.31.255) subnet (since the prefix matches until 204.16.000). If C has to be aggregated into the network with A and B, the network to be used is 204.16.0.0/18 in the range 204.16.0.1 – 204.16.63.255 (since the pattern matches until 204.16.00). They can all be aggregated into the same network 204.16.0.0/17 (range 204.16.0.1 – 204.16.127.255).
+
+
+Question 3: [7 points]
+
+An organization purchases a Class B address space and plans to use subnetting to assign addresses to its end nodes, which are spread across multiple physical networks. There are 30 networks, and the network with the largest number of hosts has 100 hosts. The administrator desires to use the same subnet mask in all routes of all internal routers if this is possible.
+
+
+A)	[4 points] What are the possible subnet masks it could use?
+
+
+Class B has 16 bits that can be used for the hosts. Since each network has only 100 hosts, 7 bits are needed for the hosts and the remaining 9 bits can be used for the network. 
+
+So, 30 subnets can be selected in the range 255.255.0.0 and 255.255.255.128.
+
+
+
+
+
+
+
+
+
+B)	[3 points] Suppose it is known that one of the networks will later grow to 150 hosts. Which of the masks identified in part (A) will continue to work and which will not?
+
+
+In this case only the subnets beginning at 255.255.0.0 till 255.255.255.0 can be used. The subnets from 255.255.255.1 to 255.255.255.128 cannot be used as they will be needed to support the hosts. The 30 subnets need to be selected in the range 255.255.0.0 till 255.255.255.0.
+
+
+
+
+
+
+
+
+
+Question 4: [6 points]
+
+
+A router has just received the following new IP addresses: 88.62.104.0/21, 88.62.112.0/21, 88.62.120.0/21 and 88.62.128.0/21. If all of them use the same outgoing interface, can they be aggregated? If so, to what? If not, why not?
+
+The first three subnets can be aggregated into 88.62.96.0/19 network. However in the last address, the third octet has a different pattern (the first bit is 1, while in all other networks, the first bit is 0) and cannot be aggregated together into the network.
+	CSC 573 Section 002
+	Fall 2012
+	Homework #1
+
+
+
+
+
+Keywords: Classless Addressing, CIDR, Sub-netting, Super-netting
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian   Student ID 1: abalasu3
+Name 2: Hareesh Lakshminarayanan Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+	Instructions
+•	You can do this homework in groups of two (at most).
+•	The total number of points is 30.
+•	You must answer all questions for full credit.
+•	Use only this paper for your answers, in the space provided.
+•	The due date is as posted on the web page (please submit your answers through Wolfware).
+
+	Question 1: [9 pts]
+
+[1] [2 points] Given the following two address/mask combinations assigned to devices A and B. Determine if these devices are on the same subnet or different subnets. 
+Device A: 172.16.17.30/20
+Device B: 172.16.28.15/20
+
+Yes. The two devices are on the same subnet. This is determined from the mask which is same meaning both the devices are in the same network (172.16.16.0).
+
+[2] Given the Class C network of 204.15.5.0/24. An administrator needs to subnet his network and has the following requirements:
+	
+	Subnet A: must support 14 hosts
+	Subnet B: must support 28 hosts
+	Subnet C: must support 2 hosts
+	Subnet D: must support 7 hosts
+     Subnet E: must support 28 host
+
+A)	[3 points] Provide the address/mask of the 5 subnets when all 5 subnets have the same size.
+
+A)	204.15.5.32/27
+B)	204.15.5.64/27
+C)	204.15.5.96/27
+D)	204.15.5.128/27
+E)	204.15.5.160/27
+
+B)	[4 points] Provide the address/mask of the 5 subnets when all 5 subnets have the minima possible power of two size. For example, a subnet with 7 hosts should accommodate at most 23=8 hosts.
+
+		The following are the subnets
+A)	204.15.5.16/28
+B)	204.15.5.32/27
+C)	204.15.5.2/31
+D)	204.15.5.8/29
+E)	204.15.5.64/27
+
+
+
+Question 2:  [8 points] 
+A large number of consecutive IP addresses are available starting at 204.16.0.0. Suppose that four organizations A, B, C, and D, request 4000, 4000, 2000, and 8000 addresses, respectively and in that order. 
+
+A)	[5 points] For each of these, give the first IP address assigned, the last IP address assigned, and the mask in the w.x.y.z/s notation.
+
+ 
+
+Organization	Addresses needed	Subnet mask	First IP Address	Last IP Address
+A	4000	204.16.0.0/20	204.16.0.1	204.16.15.159
+B	4000	204.16.16.0/20	204.16.16.1	204.16.31.159
+C	2000	204.16.32.0/21	204.16.32.1	204.16.41.200
+D	8000	204.16.64.0/19	204.16.64.1	204.16.96.95
+
+
+
+
+
+
+
+B) [3 points] Later it is found that all of them need to be forwarded to the same router, anyway. Can any of them be aggregated? Explain.
+
+
+A: 204.16.00000000.00000000/20
+B: 204.16.00010000.00000000/20
+C: 204.16.00100000.00000000/21
+D: 204.16.01000000.00000000/19
+
+Yes. A and B can be aggregated into the 204.16.0.0/19 (range: 204.16.0.1 – 204.16.31.255) subnet (since the prefix matches until 204.16.000). If C has to be aggregated into the network with A and B, the network to be used is 204.16.0.0/18 in the range 204.16.0.1 – 204.16.63.255 (since the pattern matches until 204.16.00). They can all be aggregated into the same network 204.16.0.0/17 (range 204.16.0.1 – 204.16.127.255).
+
+
+Question 3: [7 points]
+
+An organization purchases a Class B address space and plans to use subnetting to assign addresses to its end nodes, which are spread across multiple physical networks. There are 30 networks, and the network with the largest number of hosts has 100 hosts. The administrator desires to use the same subnet mask in all routes of all internal routers if this is possible.
+
+
+A)	[4 points] What are the possible subnet masks it could use?
+
+
+Class B has 16 bits that can be used for the hosts. Since each network has only 100 hosts, 7 bits are needed for the hosts and the remaining 9 bits can be used for the network. 
+
+So, 30 subnets can be selected in the range 255.255.0.0 and 255.255.255.128.
+
+
+
+
+
+
+
+
+
+B)	[3 points] Suppose it is known that one of the networks will later grow to 150 hosts. Which of the masks identified in part (A) will continue to work and which will not?
+
+
+In this case only the subnets beginning at 255.255.0.0 till 255.255.255.0 can be used. The subnets from 255.255.255.1 to 255.255.255.128 cannot be used as they will be needed to support the hosts. The 30 subnets need to be selected in the range 255.255.0.0 till 255.255.255.0.
+
+
+
+
+
+
+
+
+
+Question 4: [6 points]
+
+
+A router has just received the following new IP addresses: 88.62.104.0/21, 88.62.112.0/21, 88.62.120.0/21 and 88.62.128.0/21. If all of them use the same outgoing interface, can they be aggregated? If so, to what? If not, why not?
+
+The first three subnets can be aggregated into 88.62.96.0/19 network. However in the last address, the third octet has a different pattern (the first bit is 1, while in all other networks, the first bit is 0) and cannot be aggregated together into the network.
