@@ -36,9 +36,12 @@ public class Sftpclient {
     	//UDP Packets can hold a maximum of 536 bytes. 
 		//Split the packets into packets of 536 bytes and send. 
 		//So, right now MSS = 536 bytes. Here size = 536
+		
 		try {
 				int i = 0;
 				int size;
+				while((is.read(buffer))>0)
+				{
 				while(i<buffer.length)
 				{
 					if(buffer.length - i > 536)
@@ -49,7 +52,7 @@ public class Sftpclient {
 						System.out.println(i);
 						System.out.println(size);
 						try {
-							Thread.sleep(100);
+							Thread.sleep(1);
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -68,7 +71,7 @@ public class Sftpclient {
 						System.out.println("Offset:"+i);
 						System.out.println("Size:"+size);
 						try {
-							Thread.sleep(100);
+							Thread.sleep(1);
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -79,10 +82,10 @@ public class Sftpclient {
 					
 					
 				}	
+				}
 				System.out.println("Client done!");
 				is.close();
 				socket.close();
-				
 			}
 		 catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block

@@ -38,7 +38,7 @@ public class Sftpserver {
 					System.out.println("Offset:"+length);
 					System.out.println("Length"+packet.getLength());
 					os.write(packet.getData(),0,packet.getLength());
-				os.close();
+					os.close();
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
