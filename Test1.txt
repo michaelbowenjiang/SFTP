@@ -1,0 +1,259 @@
+CSC/ECE 573 Section 002
+Fall 2012
+Homework #2
+
+
+
+
+
+Keywords: TCP, Flow Control, Congestion Control, Slow Start, Congestion Window, Silly Window Syndrome (SWS).
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian     Student ID 1:abalasu3
+Name 2: Hareesh Lakshminarayanan   Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+Instructions
+•	You can do this homework in groups of two(**No extra credit for working alone).
+•	The total number of points is 60.
+•	You must answer all questions for full credit.
+•	The due date is as posted on the web page, please submit your answers through Wolfware (One submission per group).  
+
+
+
+
+
+
+
+
+Question 1: [TCP header] [15 points]
+
+(A) The following is a dump of a TCP header in hexadecimal format.
+
+05320017 00000001 00000000 500207FF 00000000
+
+1.	What is the source port number?
+Source port number = (0532)16 = 1330
+
+
+2. What is the destination port number?
+    Destination port number = (0017)16 = 23
+
+
+3. What the sequence number?
+    Sequence number = (00000001)16
+
+
+4. What is the acknowledgment number?
+   Acknowledgement number = (00000000)16
+
+
+5. What is the length of the header?
+    Length of the header = 5*4 = 20
+
+
+6. What is the type of the segment?
+    It is a SYN segment. 
+
+
+7. What is the window size?
+   Windows size = (07FF)16
+    
+
+
+
+
+
+(B) In a TCP connection, the initial sequence number at client site is 2171. The client opens the connection, sends only one segment carrying 1000 bytes of data, and closes the connection. What is the value of the sequence number in each of the following segments sent by the client?
+
+a. The SYN segment'? 
+	2171
+
+
+b. The data segment'? 
+	2172
+
+
+c. The FIN segment'?
+	3172
+
+
+(C) Specify three reasons why TCP may not be suitable for real time video streaming. 
+
+
+?	TCP induces delay while ensuring reliable transmission of data. For real time video streaming delays are unacceptable.
+
+
+?	Retransmission of data packets when there is packet loss would result in arrival of data later than the normal time. This would lead to a lag and the data would no more be real time.
+
+
+?	Using congestion and flow control mechanisms, the throughput of TCP is reduced to avoid packet losses. A reduced throughput is not ideal for real time video.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Question 2: [TCP throughput] [15 pts]
+
+1.	[3 points] Assume TCP is sending segments using a maximum window size (64 KB) on a channel that has infinite bandwidth and an average roundtrip time of 10 ms. What is the maximum throughput 1? How does the maximum throughput change if the roundtrip time increases to 25 ms?
+
+Window size = 64kB
+	Round trip time = 10 ms
+	(Maximum throughput)10 = Window size/ Round trip time = 64*103/10*10-3 = 6400 Kbps
+	(Maximum throughput)25 = Window size/ Round trip time = 64*103/25*10-3 = 2560 Kbps
+	
+	When RTT increases, the throughput decreases.
+
+2.	[3 points] Describe the congestion avoidance schemes for the three TCP variants: TCP Tahoe, Reno and Vegas. Also describe at least one performance issue (throughput, fairness,…) for each of them.
+
+Tahoe: Tahoe avoids congestion by reducing the Cwnd to 1MSS and the threshold to half the previous Cwnd. It again starts from the slow start phase. The throughput of Tahoe is the worst among the three schemes since the algorithm starts from the slow start phase.
+
+Reno: Reno avoids congestion by halving the threshold from previous Cwnd and starts additive increase from the threshold.  Reno perfoms better than Tahoe in terms of performance since the CWnd is never reduced to 1 MSS and slow start phase is avoided.
+
+Vegas: Vegas avoids congestion by preemptively decreasing the Cwd when a packet loss is imminent. This is identified based on the RTT. This scheme is better than the other two scheme since the Cwnd is decremented only linearly.
+
+
+3.	[3 points] Assume a link bandwidth of 10Mbps and a RTT of 10ms, how many bits should the AdvertisedWindow field have in order to keep the pipe full?
+
+The pipe can have 10 Mb data every second.
+When the RTT is 10 ms, to keep the pipe full, we need to have a window size of 100 kB
+
+4. A TCP flow’s throughput can be approximated as
+ ,
+where c is a constant, r is the round trip time, and s is the probability that a segment is lost. Assuming that each segment is split into n fragments, and that the probability of a fragment loss is p, and what is the TCP throughput? Note: A segment is lost if any of its fragments is lost.
+
+Loss of any fragment results in loss of a segment. 
+Probability that no fragment is lost is (1-p)n.
+Probability that atleast one fragment is lost is 1-(1-p)n.
+Therefore, TCP throughput = c/r.sqrt(1-(1-p)n)
+Question 3: (Round-Trip Time Estimation) [10 points]
+
+Recall that TCP uses an exponentially weighted moving average to compute round-trip times. Letting Ri be the estimated RTT after i observations, and letting Bi be the ith observation, 
+Ri = ?Ri-1 + (1-?) Bi
+for some constant ??[0,1]. Suppose that our version of TCP measures the RTT once every RTT and uses the (old) formula for the retransmission timer, timeout = 2 * Ri. If the observed round-trip times prior to and including observation j are all 150ms, Rj = 150ms, and subsequent observations are all 500ms, how many additional observations (round-trip times) will it take before the estimate is close enough to the actual RTT (500 ms) to avoid timeouts, when ? = 0.6 and when ? = 0.9? It may be a good idea to write a (very short) program to check your work. For the same parameters as above, write a mathematical expression for the number of observations needed as a function of ?. The more you can simplify it, the better, but strive for correctness first.
+
+              
+
+The given RTT estimate formula can be round off to nth term as 
+
+      R(j+n) = anR(j) + (1-an)B(n)
+
+Based on the above formula we can plug in the values to determine the minimum number of additional observations required.
+
+We know R(0)=150, B(n)=500, if we choose a close enough value with an error of 1ms, we get
+
+For a=0.6		499 = 150*0.6n + 500 – 500*0.6n
+
+Therefore n =12(approx.)
+
+For a=0.9		499 = 150*0.6n + 500 – 500*0.6n	
+
+Therefore n=56
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+Question 4: (Fast Retransmit and Fast Recovery) [8 points]
+
+In this question, you will be introduced to two notions: fast retransmission and fast recovery. If TCP receives three duplicate ACKS for the same data, it takes this as an indication that the segment following the segment that has been ACKed three times has been lost. In this case, TCP performs a fast retransmit [RFC 2581, 2582], retransmitting the missing segment without waiting for the retransmission timer of this segment to expire. In addition, TCP Reno performs a fast recovery [RFC 2581, 2582] that essentially cancels the slow-start phase after a fast retransmission (remember that slow-start phase occurs after ordinary retransmissions). Both fast retransmission and fast recovery have the potential of improving TCP performance. 
+
+Is Fast Retransmit and Fast recovery more suitable when there are isolated packet losses OR when there are loss bursts (a sequence of consecutive packet losses)?  Make a strong case for your answer through examples.
+
+
+
+Fast retransmit and Fast recovery are more suitable for isolated packet losses. They can be used to immediately recover from a single packet loss. However if there are bursts of packet losses something is wrong with the network and hence it is better to reduce the threshold to half and perform the slow start phase to minimize loss and maximize throughput. If fast retransmit or recovery techniques are followed, this could result in further losses of packets. The network could be congested and retransmitting the packets could further increase the congestion. Also, if fast recovery is used, the threshold will be decreased to half. However, due to congestion, additive increase could result in further losses and the threshold needs to be decreased after each loss which would decrease the window size. Thus ultimately the TCP performance is affected.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Question 5: (Congestion Control and Throughput) [12 points]
+
+You are observing a protocol that uses additive-increase, multiplicative-decrease congestion windows for congestion control as in TCP. This protocol transmits fixed-length packets of size S = 10KB from the sender to receiver across an unreliable network. The receiver sends an ACK whenever a packet is successfully received, and sends a negative acknowledgment (NAK) whenever an expected packet is not received. Although the sender’s packets are lost in this network, acknowledgments are never lost; moreover, the sender receives either an ACK or a NAK exactly 1 second after it transmits a packet. The sender’s congestion window (Cwin) is initialized to S =10KB, and increase it by 1KB each time it receives a positive acknowledgment. The sender halves Cwin when the first (of a sequence) of NAKs arrives, but does not decrease it further when subsequent NAKs in the sequence arrive. Letting U denote the total number of unacknowledged bytes in transit, the sender transmits a new packet whenever Cwin – U > S. Finally, a transmission is lost if Cwin exceeds W bytes at the time of transmission.
+
+a)	What range of values does Cwin vary between in steady-state (be careful)? 
+
+
+In steady-state, there always is a packet to send and there is no NAKs received. Window size does not drop below 10KB in this case. Also a loss occurs only when Cwin > W bytes. That is when CWin is (W+1) bytes. At this point the window size becomes W/2.
+
+Hence the range of CWin will be between (W)/2 and W bytes
+
+
+
+
+
+b) How many packets are transmitted and acknowledged successfully between NAK periods?
+
+When packets are transmitted, CWin –U > S. When NAK occurs, the window becomes CWin/2 bytes. CWin can be minimum W/2 bytes and utmost W bytes and the maximum number of packets that can be sent between NAK periods is W/S.
+
+Number of unacknowledged bytes = U. Transmission is stopped when CWin – U = S.
+Maximum number of unacknowledged bytes U = CWin - S
+
+Therefore maximum number of packets that are transmitted and acknowledged between NAK periods = W/S – (CWin – S) / S.
+	= [(W – Cwin)/S] + 1.
+
+
+
+
+
+
+
