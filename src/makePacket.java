@@ -14,10 +14,10 @@ public class makePacket {
 		this.data = data;
 		this.offset = offset;
 		this.size = size;
+
 	}
 	byte[] getPacket()
 	{
-		//short n = 21845;
 		int bufferSize = size+4;
 		ByteBuffer buf = ByteBuffer.allocate(bufferSize);
 		buf.putInt(0, seqno);
