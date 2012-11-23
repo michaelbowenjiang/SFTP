@@ -1,0 +1,168 @@
+CSC/ECE 573 Section 002
+Fall 2012
+Homework #2
+
+
+
+
+
+Keywords: TCP, Flow Control, Congestion Control, Slow Start, Congestion Window, Silly Window Syndrome (SWS).
+
+
+
+
+
+
+
+
+
+
+Name 1: Aravind Balasubramanian     Student ID 1:abalasu3
+Name 2: Hareesh Lakshminarayanan   Student ID 2: hlakshm
+
+
+
+
+
+
+
+
+
+
+
+Instructions
+•	You can do this homework in groups of two(**No extra credit for working alone).
+•	The total number of points is 60.
+•	You must answer all questions for full credit.
+•	The due date is as posted on the web page, please submit your answers through Wolfware (One submission per group).  
+
+
+
+
+
+
+
+
+Question 1: [TCP header] [15 points]
+
+(A) The following is a dump of a TCP header in hexadecimal format.
+
+05320017 00000001 00000000 500207FF 00000000
+
+1.	What is the source port number?
+Source port number = (0532)16 = 1330
+
+
+2. What is the destination port number?
+    Destination port number = (0017)16 = 23
+
+
+3. What the sequence number?
+    Sequence number = (00000001)16
+
+
+4. What is the acknowledgment number?
+   Acknowledgement number = (00000000)16
+
+
+5. What is the length of the header?
+    Length of the header = 5*4 = 20
+
+
+6. What is the type of the segment?
+    It is a SYN segment. 
+
+
+7. What is the window size?
+   Windows size = (07FF)16
+    
+
+
+
+
+
+(B) In a TCP connection, the initial sequence number at client site is 2171. The client opens the connection, sends only one segment carrying 1000 bytes of data, and closes the connection. What is the value of the sequence number in each of the following segments sent by the client?
+
+a. The SYN segment'? 
+	2171
+
+
+b. The data segment'? 
+	2172
+
+
+c. The FIN segment'?
+	3172
+
+
+(C) Specify three reasons why TCP may not be suitable for real time video streaming. 
+
+
+?	TCP induces delay while ensuring reliable transmission of data. For real time video streaming delays are unacceptable.
+
+
+?	Retransmission of data packets when there is packet loss would result in arrival of data later than the normal time. This would lead to a lag and the data would no more be real time.
+
+
+?	Using congestion and flow control mechanisms, the throughput of TCP is reduced to avoid packet losses. A reduced throughput is not ideal for real time video.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Question 2: [TCP throughput] [15 pts]
+
+1.	[3 points] Assume TCP is sending segments using a maximum window size (64 KB) on a channel that has infinite bandwidth and an average roundtrip time of 10 ms. What is the maximum throughput 1? How does the maximum throughput change if the roundtrip time increases to 25 ms?
+
+Window size = 64kB
+	Round trip time = 10 ms
+	(Maximum throughput)10 = Window size/ Round trip time = 64*103/10*10-3 = 6400 Kbps
+	(Maximum throughput)25 = Window size/ Round trip time = 64*103/25*10-3 = 2560 Kbps
+	
+	When RTT increases, the throughput decreases.
+
+2.	[3 points] Describe the congestion avoidance schemes for the three TCP variants: TCP Tahoe, Reno and Vegas. Also describe at least one performance issue (throughput, fairness,…) for each of them.
+
+Tahoe: Tahoe avoids congestion by reducing the Cwnd to 1MSS and the threshold to half the previous Cwnd. It again starts from the slow start phase. The throughput of Tahoe is the worst among the three schemes since the algorithm starts from the slow start phase.
+
+Reno: Reno avoids congestion by halving the threshold from previous Cwnd and starts additive increase from the threshold.  Reno perfoms better than Tahoe in terms of performance since the CWnd is never reduced to 1 MSS and slow start phase is avoided.
+
+Vegas: Vegas avoids congestion by preemptively decreasing the Cwd when a packet loss is imminent. This is identified based on the RTT. This scheme is better than the other two scheme since the Cwnd is decremented only linearly.
+
+
+3.	[3 points] Assume a link bandwidth of 10Mbps and a RTT of 10ms, how many bits should the AdvertisedWindow field have in order to keep the pipe full?
+
+The pipe can have 10 Mb data every second.
+When the RTT is 10 ms, to keep the pipe full, we need to have a window size of 100 kB
+
+4. A TCP flow’s throughput can be approximated as
+ ,
+where c is a constant, r is the round trip time, and s is the probability that a segment is lost. Assuming that each segment is split into n fragments, and that the probability of a fragment loss is p, and what is the TCP throughput? Note: A segment is lost if any of its fragments is lost.
+
+Loss of any fragment results in loss of a segment. 
+Probability that no fragment is lost is (1-p)n.
+Probability that atleast one fragment is lost is 1-(1-p)n.
+Therefore, TCP throughput = c/r.sqrt(1-(1-p)n)
+Question 3: (Round-Trip Time Estimation) [10 points]
+
+Recall that TCP uses an exponentially weighted moving average to compute round-trip times. Letting Ri be the estimated RTT after i observations, and letting Bi be the ith observation, 
+Ri = ?Ri-1 + (1-?) Bi
+for some constant ??[0,1]. Suppose that our version of TCP measures the RTT once every RTT and uses the (old) formula for the retransmission timer, timeout = 2 * Ri. If the observed round-trip times prior to and including observation j are all 150ms, Rj = 150ms, and subsequent observations are all 500ms, how many additional observations (round-trip times) will it take before the estimate is close enough to the actual RTT (500 ms) to avoid timeouts, when ? = 0.6 and when ? = 0.9? It may be a good idea to write a (very short) program to check your work. For the same parameters as above, write a mathematical expression for the number of observations needed as a function of ?. The more you can simplify it, the better, but strive for correctness first.
+
+              
+
+The given RTT estimate formula can be round off to nth term as 
+
+      R(j+n) = anR(j) + (1-an)B(n)
+
+Based on the above formula we can plug in the values to determine the minimum number of additional observations required.

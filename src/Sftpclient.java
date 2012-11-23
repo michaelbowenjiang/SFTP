@@ -74,9 +74,13 @@ public class Sftpclient {
 				}
 			}
 			
+			
+			
+			
 			byte[] sendingBuffer = sendingByteBuffer.array();
 			System.out.println("Sending Buffer data size "
 					+ sendingBuffer.length);
+			System.out.println("Last Sequence number: "+seqNo);
 
 			int beginWindow = 0;
 			int endWindow = windowSize * (4 + MSS);
@@ -85,11 +89,11 @@ public class Sftpclient {
 			
 			sendWindow(sendingBuffer, beginWindow, endWindow, MSS, address, port);
 			
-			while (endWindow < sendingBuffer.length) {
+			while (beginWindow < endWindow) {
 				try
 					{
 					
-					while( windowSeqNo != seqNo ) {
+					while( windowSeqNo <= seqNo ) {
 						
 						ackSocket.setSoTimeout(1000);
 						ackSocket.receive(ackPacket);
@@ -100,28 +104,28 @@ public class Sftpclient {
 						System.out.println("Ack Received: "+ackNo);
 						if(ackNo == windowSeqNo)
 						{
-						if (sendingBuffer.length - endWindow > (MSS + 4))
-						{
-						packet = new DatagramPacket(sendingBuffer, endWindow,
-								MSS + 4, address, port);
-						beginWindow = beginWindow + MSS + 4;
-						endWindow = endWindow + MSS + 4;
-						windowSeqNo = windowSeqNo + 1;
-						
-						socket.send(packet);
+							if (sendingBuffer.length - endWindow > (MSS + 4))
+							{
+								packet = new DatagramPacket(sendingBuffer, endWindow, MSS + 4, address, port);
+								socket.send(packet);
+								endWindow = endWindow + MSS + 4;
+								windowSeqNo = windowSeqNo + 1;
+								ackSocket.close();
+								ackSocket = new DatagramSocket(7736); 
+							}
+							else if (endWindow < sendingBuffer.length)
+							{
+								packet = new DatagramPacket(sendingBuffer, endWindow, sendingBuffer.length - endWindow, address, port);
+								endWindow = sendingBuffer.length;
+								socket.send(packet);
+								ackSocket.close();
+								ackSocket = new DatagramSocket(7736); 
+							}
+							beginWindow = beginWindow + MSS + 4;
 						}
-						else if (endWindow < sendingBuffer.length)
-						{
-							packet = new DatagramPacket(sendingBuffer, endWindow,
-									sendingBuffer.length - endWindow, address, port);
-							
-							endWindow = sendingBuffer.length;
-							socket.send(packet);
-						}
-					}
 						else
 						{
-							System.out.println("Packet loss: "+windowSeqNo);
+							System.out.println("Out of Order "+windowSeqNo);
 						}
 					}
 					}catch (SocketTimeoutException e) {
@@ -133,11 +137,10 @@ public class Sftpclient {
 				    }
 				} 
 			
-
-			System.out.println("Client done!");
-			is.close();
-			socket.close();
-			ackSocket.close();
+				System.out.println("Client done!");
+				is.close();
+				socket.close();
+				ackSocket.close();
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -153,23 +156,31 @@ public class Sftpclient {
 	{
 		int temp = beginOffset;
 		DatagramPacket packet = null;
+		try {
+			while(temp<endOffset)
+			{
+				if(endOffset-temp> MSS+4)
+				{
+			
+					packet = new DatagramPacket(sendingBuffer, temp, MSS + 4, address,port);
+					DatagramSocket socket = new DatagramSocket();
+					socket.send(packet);
+					socket.close();
+				}
+				else
+				{
+					packet = new DatagramPacket(sendingBuffer, temp, endOffset-temp, address, port);
+					DatagramSocket socket = new DatagramSocket();
+					socket.send(packet);
+					socket.close();
+				}
+				System.out.println("Packet Sent:");
+				temp += MSS + 4;
+			}
 		
-		while(temp<endOffset)
-		{
-			packet = new DatagramPacket(sendingBuffer, temp, MSS + 4, address,
-					port);
-			try {
-				DatagramSocket socket = new DatagramSocket();
-				socket.send(packet);
-				socket.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+			}catch (IOException e) {
+		// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			System.out.println("Packet Sent:");
-			temp += MSS + 4;
 		}
-		
 	}
-}

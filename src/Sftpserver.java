@@ -29,6 +29,8 @@ public class Sftpserver {
 		int ackNo;
 		InetAddress address = null;
 		ByteBuffer ackBuf = ByteBuffer.allocate(4);
+		int expectedSeqNo = 0;
+		
 		try {
 			socket = new DatagramSocket(port);
 			ackSocket = new DatagramSocket();
@@ -58,13 +60,14 @@ public class Sftpserver {
 					// If r<=p, packet is discarded
 					if (r <= p) {
 						System.out.println("Packet Loss! Sequence number:"+seqno);
-						socket.close();
-						socket = new DatagramSocket(port);
+						
 					} else {
 						
 						// Write to file
-						
+						if (expectedSeqNo == seqno)
+						{
 						os.write(packet.getData(), 4, packet.getLength() - 4);
+						expectedSeqNo = expectedSeqNo+1;					
 						System.out.println("Sequence number" + seqno);
 						System.out.println("Offset:" + length);
 						System.out.println("Length" + (packet.getLength() - 4));
@@ -74,6 +77,7 @@ public class Sftpserver {
 						ackPacket = new DatagramPacket(ackBuffer, 0, 4,address, 7736);
 						ackSocket.send(ackPacket);
 						os.close();
+						}
 					}
 					
 
