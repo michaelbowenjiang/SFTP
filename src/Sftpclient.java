@@ -4,6 +4,8 @@ import java.nio.ByteBuffer;
 
 public class Sftpclient {
 
+	
+	
 	public static void main(String[] args) {
 
 		// Declarations
@@ -12,8 +14,7 @@ public class Sftpclient {
 		String FileName = args[2];
 		File sendingFile = new File(FileName);
 		InputStream is = null;
-		;
-
+		
 		int fileSize = (int) sendingFile.length();
 		int seqNo = 0;
 		int ackNo = 0;
@@ -21,9 +22,10 @@ public class Sftpclient {
 		MSS = 1000;
 		int i = 0, j = 0;
 		int size;
-		int sendingBufferSize = (int) (fileSize + (4 * Math.ceil((float)fileSize / MSS)));
+		int sendingBufferSize = (int) (fileSize + (4 * Math
+				.ceil((float) fileSize / MSS)));
 		System.out.println(sendingBufferSize);
-		
+
 		int windowSize = 5;
 
 		byte[] dataBuffer = null;
@@ -43,33 +45,9 @@ public class Sftpclient {
 
 		try {
 			ackSocket = new DatagramSocket(7736);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		try {
 			is = new FileInputStream(sendingFile);
-		} catch (FileNotFoundException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-
-		try {
 			socket = new DatagramSocket();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		try {
 			address = InetAddress.getByName(hostName);
-		} catch (UnknownHostException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		
-		
-		
-		try {
 			while ((is.read(dataBuffer)) > 0) {
 				while (i < dataBuffer.length) {
 					if (dataBuffer.length - i > MSS) {
@@ -88,14 +66,13 @@ public class Sftpclient {
 								seqNo);
 
 						packetBuffer = m.getPacket();
-						sendingByteBuffer.put(packetBuffer,0,packetBuffer.length);
+						sendingByteBuffer.put(packetBuffer, 0,
+								packetBuffer.length);
 
 						i = i + MSS;
 					}
 				}
 			}
-
-			
 			
 			byte[] sendingBuffer = sendingByteBuffer.array();
 			System.out.println("Sending Buffer data size "
@@ -103,59 +80,96 @@ public class Sftpclient {
 
 			int beginWindow = 0;
 			int endWindow = windowSize * (4 + MSS);
-			seqNo = 0;
+			int windowSeqNo = 0;
 
-			while (j < endWindow) {
-				packet = new DatagramPacket(sendingBuffer, j, MSS + 4, address,
-						port);
-				socket.send(packet);
-				j += MSS + 4;
-			}
-
+			
+			sendWindow(sendingBuffer, beginWindow, endWindow, MSS, address, port);
+			
 			while (endWindow < sendingBuffer.length) {
-				if(sendingBuffer.length - endWindow > (MSS+4))
-				{
-				ackSocket.receive(ackPacket);
-				ackBuffer = ackPacket.getData();
-				ackByteBuffer.put(ackBuffer);
-				ackByteBuffer.rewind();
-				ackNo = ackByteBuffer.getInt(0);
-				if (ackNo == seqNo) {
-					seqNo = seqNo + 1;
-					beginWindow = beginWindow + MSS + 4;
-
-					packet = new DatagramPacket(sendingBuffer, endWindow,
-							MSS + 4, address, port);
-					endWindow = endWindow + MSS + 4;
-					socket.send(packet);
-					continue;
-				} else {
-					System.out.println("Packet loss");
-
-				}
-				}
-				else
-				{
-					packet = new DatagramPacket(sendingBuffer, endWindow,
-							sendingBuffer.length - endWindow, address, port);
-					endWindow = endWindow + MSS + 4;
-					socket.send(packet);
+				try
+					{
 					
-				}
-			}
+					while( windowSeqNo != seqNo ) {
+						
+						ackSocket.setSoTimeout(1000);
+						ackSocket.receive(ackPacket);
+						ackBuffer = ackPacket.getData();
+						ackByteBuffer.put(ackBuffer);
+						ackByteBuffer.rewind();
+						ackNo = ackByteBuffer.getInt(0);
+						System.out.println("Ack Received: "+ackNo);
+						if(ackNo == windowSeqNo)
+						{
+						if (sendingBuffer.length - endWindow > (MSS + 4))
+						{
+						packet = new DatagramPacket(sendingBuffer, endWindow,
+								MSS + 4, address, port);
+						beginWindow = beginWindow + MSS + 4;
+						endWindow = endWindow + MSS + 4;
+						windowSeqNo = windowSeqNo + 1;
+						
+						socket.send(packet);
+						}
+						else if (endWindow < sendingBuffer.length)
+						{
+							packet = new DatagramPacket(sendingBuffer, endWindow,
+									sendingBuffer.length - endWindow, address, port);
+							
+							endWindow = sendingBuffer.length;
+							socket.send(packet);
+						}
+					}
+						else
+						{
+							System.out.println("Packet loss: "+windowSeqNo);
+						}
+					}
+					}catch (SocketTimeoutException e) {
+				        System.out.println("Timeout Occured for packet"+(ackNo+1));
+				        System.out.println("Begin Window Postiion"+ beginWindow);
+				        System.out.println("End Window Position"+endWindow);
+				        sendWindow(sendingBuffer, beginWindow, endWindow, MSS, address, port);
+				        continue;
+				    }
+				} 
+			
 
 			System.out.println("Client done!");
 			is.close();
-			// socket.close();
-			// ackSocket.close();
+			socket.close();
+			ackSocket.close();
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+	}
+	
+	static void sendWindow(byte[] sendingBuffer, int beginOffset, int endOffset, int MSS, InetAddress address, int port)
+	{
+		int temp = beginOffset;
+		DatagramPacket packet = null;
+		
+		while(temp<endOffset)
+		{
+			packet = new DatagramPacket(sendingBuffer, temp, MSS + 4, address,
+					port);
+			try {
+				DatagramSocket socket = new DatagramSocket();
+				socket.send(packet);
+				socket.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			System.out.println("Packet Sent:");
+			temp += MSS + 4;
+		}
+		
 	}
 }
