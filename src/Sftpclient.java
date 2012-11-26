@@ -51,24 +51,16 @@ public class Sftpclient {
 				if (beginWindow < sendingBuffer.length) {
 					tempbuf.put(sendingBuffer, beginWindow, 4);
 					System.out.println("Timeout, Sequence Number: "+ (latestAckReceived+1));
-				//	System.out.println("Timeout, Seqno : "
-				//			+ (latestAckReceived+1) + "Ack obtained till :"
-				//			+ latestAckReceived + "Begin Window: "
-				//			+ beginWindow);
 				}
 
 				if (this.seqno < latestAckReceived
 						&& highestSeqno != latestAckReceived) {
-				//	System.out.println("Restarting timer : "
-				//			+ tempbuf.getInt(0) + "last ack:"
-				//			+ latestAckReceived);
 					Timer timer = new Timer();
 					timer.schedule(new Sftpclient().new PacketTimer(
 							latestAckReceived + 1), 500);
 					lock.unlock();
-					// break;
-
-				} else if (highestSeqno == latestAckReceived) {
+					}
+					else if (highestSeqno == latestAckReceived) {
 					System.out.println("Last ack received : Exiting");
 					Date d = new Date();
 					endTime = d.getTime();
@@ -76,23 +68,20 @@ public class Sftpclient {
 					System.out.println("To Destination:"+ address + "it took " + timeDiff + " ms"+ " to deliver the file");
 					System.exit(1);
 				} else {
-					//System.out.println("In send window, Begin :" + beginWindow
-					//		+ ",End : " + endWindow);
-					//sendWindow(sendingBuffer, beginWindow, endWindow, MSS,
-					//		address, port);
-					beginWindow = (latestAckReceived+1)*(MSS+4);
-					if (sendingBuffer.length - endWindow < (MSS+4))
+					
+					beginWindow = (latestAckReceived+1)*(MSS+8);
+					if (sendingBuffer.length - endWindow < (MSS+8))
 					{
 						endWindow = sendingBuffer.length;
 					}
 					else
 					{
-					endWindow = beginWindow + (windowSize)*(MSS+4);
+					endWindow = beginWindow + (windowSize)*(MSS+8);
 					}
 					sendWindow(sendingBuffer, beginWindow, endWindow, MSS,
 				address, port);
 					lock.unlock();
-					// break;
+				
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -124,15 +113,15 @@ public class Sftpclient {
 
 		int i = 0;
 		int size;
-		int sendingBufferSize = (int) (fileSize + (4 * Math
+		int sendingBufferSize = (int) (fileSize + (8 * Math
 				.ceil((float) fileSize / MSS)));
-		//System.out.println(sendingBufferSize);
+		
 
 		byte[] dataBuffer = new byte[MSS];
-		byte[] ackBuffer = new byte[4];
+		byte[] ackBuffer = new byte[8];
 		byte[] packetBuffer = null;
 
-		ByteBuffer ackByteBuffer = ByteBuffer.allocate(4);
+		ByteBuffer ackByteBuffer = ByteBuffer.allocate(8);
 		ByteBuffer sendingByteBuffer = ByteBuffer.allocate(sendingBufferSize);
 		dataBuffer = new byte[fileSize];
 
@@ -177,10 +166,8 @@ public class Sftpclient {
 			highestSeqno = seqNo;
 
 			sendingBuffer = sendingByteBuffer.array();
-			//System.out.println("Sending Buffer data size "
-			//		+ sendingBuffer.length);
-
-			endWindow = windowSize * (4 + MSS);
+		
+			endWindow = windowSize * (8 + MSS);
 
 			Date d = new Date();
 			startTime = d.getTime();
@@ -194,7 +181,7 @@ public class Sftpclient {
 
 				try {
 
-					// ackSocket.setSoTimeout(100);
+		
 					ackSocket.receive(ackPacket);
 					lock.lock();
 					ackBuffer = ackPacket.getData();
@@ -204,22 +191,22 @@ public class Sftpclient {
 					latestAckReceived = ackNo;
 					lock.unlock();
 
-				//	System.out.println("Ack Received: " + ackNo);
+		
 
-					if (sendingBuffer.length - endWindow > (MSS + 4)) {
+					if (sendingBuffer.length - endWindow > (MSS + 8)) {
 
-						//System.out.println("1");
+		
 						lock.lock();
 						packet = new DatagramPacket(sendingBuffer, endWindow,
-								MSS + 4, address, port);
+								MSS + 8, address, port);
 						
 
 						socket.send(packet);
-						beginWindow = beginWindow + MSS + 4;
-						endWindow = endWindow + MSS + 4;
+						beginWindow = beginWindow + MSS + 8;
+						endWindow = endWindow + MSS + 8;
 						ByteBuffer tempbuf = null;
-						tempbuf = ByteBuffer.allocate(MSS + 4);
-						tempbuf.put(sendingBuffer, packet.getOffset(), MSS + 4);
+						tempbuf = ByteBuffer.allocate(MSS + 8);
+						tempbuf.put(sendingBuffer, packet.getOffset(), MSS + 8);
 						//System.out.println("Packet Sent:" + tempbuf.getInt(0));
 						lock.unlock();
 
@@ -227,7 +214,7 @@ public class Sftpclient {
 
 						if (endWindow == sendingBuffer.length) {
 							lock.lock();
-							beginWindow = beginWindow + MSS + 4;
+							beginWindow = beginWindow + MSS + 8;
 					//		System.out.println("Begin Window: Incremented to "
 					//				+ beginWindow);
 							lock.unlock();
@@ -240,13 +227,13 @@ public class Sftpclient {
 									sendingBuffer.length - endWindow, address,
 									port);
 							ByteBuffer tempbuf = null;
-							tempbuf = ByteBuffer.allocate(MSS + 4);
+							tempbuf = ByteBuffer.allocate(MSS + 8);
 							tempbuf.put(sendingBuffer, endWindow,
 									sendingBuffer.length - endWindow);
 						
 
 							socket.send(packet);
-							beginWindow = beginWindow + MSS + 4;
+							beginWindow = beginWindow + MSS + 8;
 							endWindow = sendingBuffer.length;
 							//System.out.println("Packet Sent:"
 							//		+ tempbuf.getInt(0));
@@ -281,8 +268,8 @@ public class Sftpclient {
 		ByteBuffer tempbuf = null;
 		while (temp < endOffset) {
 
-			if (endOffset - temp >= MSS + 4) {
-				packet = new DatagramPacket(sendingBuffer, temp, MSS + 4,
+			if (endOffset - temp >= MSS + 8) {
+				packet = new DatagramPacket(sendingBuffer, temp, MSS + 8,
 						address, port);
 				socket.send(packet);
 				tempbuf = ByteBuffer.allocate(4);
@@ -297,7 +284,7 @@ public class Sftpclient {
 			//	System.out.println("Packet Sent:" + tempbuf.getInt(0));
 			}
 
-			temp += MSS + 4;
+			temp += MSS + 8;
 		}
 
 		// Create timer

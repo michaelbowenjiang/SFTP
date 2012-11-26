@@ -18,10 +18,12 @@ public class makePacket {
 	}
 	byte[] getPacket()
 	{
-		int bufferSize = size+4;
+		int dataPacket = 1;
+		int bufferSize = size+8;
 		ByteBuffer buf = ByteBuffer.allocate(bufferSize);
 		buf.putInt(0, seqno);
-		buf.position(4);
+		buf.putInt(4, dataPacket);
+		buf.position(8);
 		buf.put(data, offset, size);
 		byte[] dataBuffer = buf.array();
 		return dataBuffer;

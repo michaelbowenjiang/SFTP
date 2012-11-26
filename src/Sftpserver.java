@@ -20,17 +20,18 @@ public class Sftpserver {
 		int port = Integer.parseInt(args[0]);
 		DatagramSocket socket = null;
 		DatagramSocket ackSocket = null;
-		byte[] buffer = new byte[1004];
+		byte[] buffer = new byte[1008];
 		byte[] receivingBuffer = new byte[1000];
-		byte[] ackBuffer = new byte[4];
+		byte[] ackBuffer = new byte[8];
 		DatagramPacket packet = null;
 		DatagramPacket ackPacket = null;
 		OutputStream os = null;
 		File newFile = new File(FileName);
 		int ackNo;
 		InetAddress address = null;
-		ByteBuffer ackBuf = ByteBuffer.allocate(4);
+		ByteBuffer ackBuf = ByteBuffer.allocate(8);
 		int expectedSeqNo = 0;
+		int ackID = 0;
 		
 		try {
 			socket = new DatagramSocket(port);
@@ -49,7 +50,7 @@ public class Sftpserver {
 					ByteBuffer buf = ByteBuffer.allocate(buffer.length);
 					buf.put(buffer);
 					int seqno = buf.getInt(0);
-					buf.position(4);
+					buf.position(8);
 					buf.get(receivingBuffer);
 					//int length = (int) newFile.length();
 					
@@ -65,23 +66,25 @@ public class Sftpserver {
 						if(seqno == expectedSeqNo -1){
 							//System.out.println("Hack to handle ACK loss, resending ACK for "+seqno);
 							ackBuf.putInt(0, seqno);
+							ackBuf.putInt(4, ackID);
 							ackBuffer = ackBuf.array();
-							ackPacket = new DatagramPacket(ackBuffer, 0, 4,address, 7736);
+							ackPacket = new DatagramPacket(ackBuffer, 0, 8,address, 7736);
 							ackSocket.send(ackPacket);
 						}
 						
 						// Write to file
 						if (expectedSeqNo == seqno)
 						{
-						os.write(packet.getData(), 4, packet.getLength() - 4);
+						os.write(packet.getData(), 8, packet.getLength() - 8);
 						expectedSeqNo = expectedSeqNo+1;					
 					//	System.out.println("Sequence number" + seqno);
 					//	System.out.println("Offset:" + length);
 					//	System.out.println("Length" + (packet.getLength() - 4));
 						ackNo = seqno;
 						ackBuf.putInt(0, ackNo);
+						ackBuf.putInt(4,ackID);
 						ackBuffer = ackBuf.array();
-						ackPacket = new DatagramPacket(ackBuffer, 0, 4,address, 7736);
+						ackPacket = new DatagramPacket(ackBuffer, 0, 8,address, 7736);
 						ackSocket.send(ackPacket);
 						os.flush();
 						}else{
